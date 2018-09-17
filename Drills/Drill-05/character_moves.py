@@ -12,7 +12,7 @@ def move_from_center_to_right():
         clear_canvas_now()
         grass.draw_now(400, 30)
         character.draw_now(x, y)
-        x += 2
+        x += 10
         delay(0.01)
 
 def move_up():
@@ -21,7 +21,7 @@ def move_up():
         clear_canvas_now()
         grass.draw_now(400, 30)
         character.draw_now(x, y)
-        y += 2
+        y += 10
         delay(0.01)
 
 
@@ -31,7 +31,7 @@ def move_left():
         clear_canvas_now()
         grass.draw_now(400, 30)
         character.draw_now(x, y)
-        x -= 2
+        x -= 10
         delay(0.01)
 
 def move_down():
@@ -40,7 +40,7 @@ def move_down():
         clear_canvas_now()
         grass.draw_now(400, 30)
         character.draw_now(x, y)
-        y -= 2
+        y -= 10
         delay(0.01)
 
 def move_from_left_to_center():
@@ -49,17 +49,17 @@ def move_from_left_to_center():
         clear_canvas_now()
         grass.draw_now(400, 30)
         character.draw_now(x, y)
-        x += 2
+        x += 10
         delay(0.01)
 
 def make_rectangle():
 
-    # move_from_center_to_right()
-    # move_up()
-    # move_left()
-    # move_down()
-    # move_from_left_to_center()
-    pass
+    move_from_center_to_right()
+    move_up()
+    move_left()
+    move_down()
+    move_from_left_to_center()
+
 
 def make_circle():
     cx, cy = 800 // 2, 600 // 2
@@ -70,8 +70,8 @@ def make_circle():
         clear_canvas_now()
         grass.draw_now(400, 30)
         radian = math.radians(degree)
-        character.draw_now(math.cos(degree)*r + cx, math.sin(degree)*r + cy)
-        degree += 0.1
+        character.draw_now(math.cos(radian)*r + cx, math.sin(radian)*r + cy)
+        degree += 1
         delay(0.01)
 
 while True:
