@@ -5,15 +5,16 @@ open_canvas()
 grass = load_image('grass.png')
 character = load_image('animation_sheet.png')
 
+
 def reach_point(x, y, px, py):
-    if x > px - 10 and x < px + 10 and y > py - 10 and y < py + 10:
+    if (x > px - 10) and (x < px + 10) and (y > py - 10) and (y < py + 10):
         return True
+
 
 def goal_current_to_point(point_count):
     point = [[203, 535], [132, 243], [535, 470], [477, 203], [715, 136], [316, 225], [510, 92], [692, 518], [682, 236],
              [712, 349]]
     frame = 0
-    direction = 1
     global x
     global y
 
@@ -26,8 +27,8 @@ def goal_current_to_point(point_count):
         else:
             direction = -1
 
-        x += (point[point_count][0] - x) / 20
-        y += (point[point_count][1] - y) / 20
+        x += (point[point_count][0] - x) / 10
+        y += (point[point_count][1] - y) / 10
 
         if direction > 0:
             character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
