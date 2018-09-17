@@ -5,7 +5,9 @@ open_canvas()
 grass = load_image('grass.png')
 character = load_image('animation_sheet.png')
 
-
+def reach_point(x, y, px, py):
+    if x > px - 10 and x < px + 10 and y > py - 10 and y < py + 10:
+        return True
 
 def goal_current_to_point(point_count):
     point = [[203, 535], [132, 243], [535, 470], [477, 203], [715, 136], [316, 225], [510, 92], [692, 518], [682, 236],
@@ -38,6 +40,8 @@ def goal_current_to_point(point_count):
 
         delay(0.05)
 
+        if reach_point(x, y, point[point_count][0], point[point_count][1]) == True :
+            break
 
 
 def run_character():
