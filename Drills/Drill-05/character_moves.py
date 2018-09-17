@@ -5,7 +5,15 @@ open_canvas()
 grass = load_image('grass.png')
 character = load_image('character.png')
 
-#여기를 채워 넣으시오
+def make_rectangle():
+    pass
+
+def make_circle():
+    pass
+
+while True:
+    make_rectangle()
+    make_circle()
 
 
 close_canvas()
