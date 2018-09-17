@@ -7,7 +7,7 @@ character = load_image('animation_sheet.png')
 
 
 def reach_point(x, y, px, py):
-    if (x > px - 10) and (x < px + 10) and (y > py - 10) and (y < py + 10):
+    if (x > px - 11) and (x < px + 11) and (y > py - 11) and (y < py + 11):
         return True
 
 
