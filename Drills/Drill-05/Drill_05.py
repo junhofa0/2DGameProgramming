@@ -7,7 +7,7 @@ character = load_image('animation_sheet.png')
 
 
 def reach_point(x, y, px, py):
-    if (x > px - 11) and (x < px + 11) and (y > py - 11) and (y < py + 11):
+    if (x > px - 5) and (x < px + 5) and (y > py - 5) and (y < py + 5):
         return True
 
 
@@ -27,8 +27,12 @@ def goal_current_to_point(point_count):
         else:
             direction = -1
 
-        x += (point[point_count][0] - x) / 10
-        y += (point[point_count][1] - y) / 10
+        if point_count == 0:
+            x += (point[point_count][0] - x) / 6
+            y += (point[point_count][1] - y) / 6
+        else:
+            x += (point[point_count][0] - point[point_count - 1][0]) / 10
+            y += (point[point_count][1] - point[point_count -1][1]) / 10
 
         if direction > 0:
             character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
