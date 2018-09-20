@@ -20,7 +20,7 @@ def goal_current_to_point(point_count):
 
     while True:
         clear_canvas_now()
-        grass.draw(400,90)
+        grass.draw(400, 90)
 
         if point[point_count][0] - x > 0:
             direction = 1
