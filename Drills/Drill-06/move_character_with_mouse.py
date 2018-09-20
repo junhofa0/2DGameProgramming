@@ -2,6 +2,7 @@ from pico2d import *
 
 KPU_WIDTH, KPU_HEIGHT = 1280, 1024
 
+# 최종완성
 
 def handle_events():
     global mx, my      # 마우스 좌표
@@ -26,14 +27,12 @@ def handle_events():
                 running = False
         elif event.type == SDL_QUIT:
             running = False
-            
 
 open_canvas(KPU_WIDTH, KPU_HEIGHT)  
 
 MouseIcon = load_image('hand_arrow.png')
 kpu_ground = load_image('KPU_GROUND.png')
 character = load_image('animation_sheet.png')
-
 
 x, y = KPU_WIDTH // 2, KPU_HEIGHT // 2
 running = True
@@ -42,7 +41,7 @@ mx, my = 0, 0
 gx, gy = 0, 0
 sx, sy = 0, 0
 count = 30
-direc = 0
+direc = 1
 frame = 0
 hide_cursor()
 
@@ -79,7 +78,3 @@ while running:
     handle_events()
 
 close_canvas()
-
-
-
-
