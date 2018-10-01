@@ -1,4 +1,5 @@
-@@ -0,0 +1,69 @@
+#완성
+
 from pico2d import *
 import random
 
