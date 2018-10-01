@@ -1,3 +1,4 @@
+@@ -0,0 +1,69 @@
 from pico2d import *
 import random
 
@@ -28,6 +29,30 @@ def goal_current_to_point(point_count):
     frame = 0
     dir = 0
 
+    while True:
+        clear_canvas_now()
+        grass.draw(KPU_WIDTH // 2, KPU_HEIGHT // 2)
+
+        px, _ = draw_line_perfect(i, p[point_count % 10], p[(point_count+1) % 10])
+        i += 2
+        cx, cy = draw_line_perfect(i, p[point_count % 10], p[(point_count+1) % 10])
+
+        if cx - px > 0:
+            direction = 1
+        else:
+            direction = -1
+
+        if direction > 0:
+            character.clip_draw(frame * 100, 100 * 1, 100, 100, cx, cy)
+        elif direction < 0:
+            character.clip_draw(frame * 100, 100 * 0, 100, 100, cx, cy)
+
+        update_canvas()
+        frame = (frame + 1) % 8
+        delay(0.02)
+
+        if i == 100:
+            break
 
 def run_character():
     count = 0
