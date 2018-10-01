@@ -12,6 +12,7 @@ def handle_events():
     global click
     global count
     global running
+
     events = get_events()
     
     for event in events:
@@ -70,9 +71,9 @@ while running:
     elif direc == -1:
         character.clip_draw(frame * 100, 100 * 0, 100, 100, x, y)
     MouseIcon.draw(mx + 25, my-25)
-    update_canvas()
-    
     frame = (frame + 1) % 8
+
+    update_canvas()
 
     delay(0.02)
     handle_events()
