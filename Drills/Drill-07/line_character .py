@@ -63,7 +63,7 @@ def run_character():
 
 
 cx, cy = 800 // 2, 90
-p = [(random.randint(0 + 50, KPU_WIDTH - 50), random.randint(0 + 50, KPU_HEIGHT - 50)) for i in range(10)]
+p = [(random.randint(0 + 50, KPU_WIDTH - 50), random.randint(0 + 50, KPU_HEIGHT - 50)) for i in range(20)]
 
 while True:
     run_character()
