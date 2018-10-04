@@ -22,16 +22,25 @@ def goal_current_to_point(point_count):
     global cy
     i = 0
     frame = 0
+    dir = 0
 
     while True:
         clear_canvas_now()
         grass.draw(KPU_WIDTH // 2, KPU_HEIGHT // 2)
 
+        px, _ = Track_curve(i, p[(point_count+9) % 10], p[point_count % 10],p[(point_count+1) % 10],p[(point_count+2) % 10])
         i += 2
-
         cx, cy = Track_curve(i, p[(point_count+9) % 10], p[point_count % 10],p[(point_count+1) % 10],p[(point_count+2) % 10])
 
-        character.clip_draw(frame * 100, 100 * 0, 100, 100, cx, cy)
+        if cx - px > 0:
+            direction = 1
+        else:
+            direction = -1
+
+        if direction > 0:
+            character.clip_draw(frame * 100, 100 * 1, 100, 100, cx, cy)
+        elif direction < 0:
+            character.clip_draw(frame * 100, 100 * 0, 100, 100, cx, cy)
 
         update_canvas()
         frame = (frame + 1) % 8
