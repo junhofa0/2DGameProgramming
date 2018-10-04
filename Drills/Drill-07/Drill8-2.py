@@ -64,3 +64,5 @@ while True:
 
 close_canvas()
 
+#완성
+
