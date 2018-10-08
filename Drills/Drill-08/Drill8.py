@@ -8,6 +8,18 @@ class Grass:
     def draw(self):
         self.image.draw(400,30)
 
+class Soccer_Ball:
+    def __init__(self):
+        self.x, self.y = random.randint(0+50, 800-50), 600
+        self.speed = random.randint(700, 1500) / 100
+        if random.randint(0, 1) == 1:
+            self.r = 20
+            self.image = load_image('ball41x41.png')
+        else:
+            self.r = 10
+            self.image = load_image('ball21x21.png')
+        
+
 class Boy:
     def __init__(self):
         self.x, self.y = random.randint(40, 400), 90
