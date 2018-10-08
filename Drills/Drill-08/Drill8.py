@@ -88,3 +88,5 @@ while running:
     
 
 close_canvas()
+
+#최종완성
