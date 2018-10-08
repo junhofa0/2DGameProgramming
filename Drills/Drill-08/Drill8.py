@@ -7,6 +7,7 @@ class Grass:
 
     def draw(self):
         self.image.draw(400,30)
+        
 
 class Soccer_Ball:
     def __init__(self):
@@ -21,9 +22,15 @@ class Soccer_Ball:
 
     def update(self):
         self.y -= self.speed
+
+    def stop(self):
+        if self.y < 0 + 45 + self.r:
+            self.speed = 0
+            self.y = 45 + self.r
         
     def draw(self):
         self.image.draw(self.x, self.y)
+        
         
 class Boy:
     def __init__(self):
@@ -58,6 +65,9 @@ balls = [Soccer_Ball() for i in range(20)]
 
 while running:
     handle_events()
+
+    for ball in balls:
+        ball.stop()
 
     for boy in team:
         boy.update()
