@@ -18,8 +18,13 @@ class Soccer_Ball:
         else:
             self.r = 10
             self.image = load_image('ball21x21.png')
-        
 
+    def update(self):
+        self.y -= self.speed
+        
+    def draw(self):
+        self.image.draw(self.x, self.y)
+        
 class Boy:
     def __init__(self):
         self.x, self.y = random.randint(40, 400), 90
@@ -49,17 +54,24 @@ running = True
 
 grass = Grass()
 team = [Boy() for i in range(11)]
+balls = [Soccer_Ball() for i in range(20)]
 
 while running:
     handle_events()
 
     for boy in team:
         boy.update()
+    for ball in balls:
+        ball.update()
     
     clear_canvas()
+    
     grass.draw()
     for boy in team:
         boy.draw()
+    for ball in balls:
+        ball.draw()
+        
     update_canvas()
     
     delay(0.05)
