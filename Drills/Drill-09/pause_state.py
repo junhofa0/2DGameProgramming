@@ -6,7 +6,7 @@ from pico2d import *
 
 name = "PauseState"
 image = None
-
+count = 0
 
 def enter():
     global image
@@ -32,6 +32,8 @@ def handle_events():
 
 def draw():
     clear_canvas()
+    main_state.boy.draw()
+    main_state.grass.draw()
     image.draw(400, 300)
     update_canvas()
 
