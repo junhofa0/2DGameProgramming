@@ -31,15 +31,19 @@ def handle_events():
 
 
 def draw():
+    global count
     clear_canvas()
+    if count % 200 > 100:
+        image.draw(400, 300)
     main_state.boy.draw()
     main_state.grass.draw()
-    image.draw(400, 300)
     update_canvas()
 
 
 def update():
-    pass
+    global count
+    count = (count+1) % 1000
+
 
 
 def pause():
