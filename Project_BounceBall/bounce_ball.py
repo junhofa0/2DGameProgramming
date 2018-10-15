@@ -17,7 +17,10 @@ class Grass:
     def __init__(self): 
         self.x = 400
         self.y = 30
-        self.image = load_image('grass.png')
+        self.image = load_image('resource\\image\\grass.png')
+
+    def draw(self):
+        self.image.draw(self.x, self.y)
 
 class Ball:
     def __init__(self): 
@@ -31,6 +34,21 @@ class Ball:
         self.image = load_image('resource\\image\\ball.png')   
         self.image2 = load_image('resource\\image\\bump_ball.png')
 
+    def draw(self):
+        if self.bump == False:
+            self.image.draw(self.x, self.y+30)
+        elif self.bump == True:
+            self.image2.draw(self.x, self.y+30)
+
 running = True
 grass = Grass()
 ball = Ball()
+
+while running:
+
+    clear_canvas()
+    grass.draw()
+    ball.draw()
+
+    update_canvas()
+    delay(0.01)
