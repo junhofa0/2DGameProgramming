@@ -40,7 +40,17 @@ class Ball:
         elif self.bump == True:
             self.image2.draw(self.x, self.y+30)
 
+    def jump(self):
+        self.bump = False
+        self.y += self.speed
+        self.speed -= self.acceleration
+        if self.y < 35:
+            self.y = 30
+            self.speed = 28
+            self.bump = True
+
     def update(self):
+        self.jump()
         self.x += self.Direction * 5
 
     def move_right(self):
@@ -90,3 +100,5 @@ while running:
     update_canvas()
     delay(0.01)
     handle_events()
+
+close_canvas()
