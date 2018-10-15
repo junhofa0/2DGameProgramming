@@ -40,11 +40,48 @@ class Ball:
         elif self.bump == True:
             self.image2.draw(self.x, self.y+30)
 
+    def update(self):
+        self.x += self.Direction * 5
+
+    def move_right(self):
+        self.Direction += RIGHT
+
+    def move_left(self):
+        self.Direction += LEFT
+
+    def stop_right(self):
+        self.Direction -= RIGHT
+
+    def stop_left(self):
+        self.Direction -= LEFT
+
+def handle_events():
+    global running
+    events = get_events()
+
+    for event in events:
+        if event.type == SDL_QUIT:
+            running = False
+        elif event.type == SDL_KEYDOWN:
+            if event.key == SDLK_ESCAPE:
+                running = False
+            elif event.key == SDLK_RIGHT:
+                ball.move_right()
+            elif event.key == SDLK_LEFT:
+                ball.move_left()
+        elif event.type == SDL_KEYUP:
+            if event.key == SDLK_RIGHT:
+                ball.stop_right()
+            elif event.key == SDLK_LEFT:
+                ball.stop_left()
+
 running = True
 grass = Grass()
 ball = Ball()
 
 while running:
+    
+    ball.update()
 
     clear_canvas()
     grass.draw()
@@ -52,3 +89,4 @@ while running:
 
     update_canvas()
     delay(0.01)
+    handle_events()
