@@ -12,16 +12,17 @@ open_canvas()
 class block:
     def __init__(self):
         pass
-
-class Grass:
+    
+class Grass: 
     def __init__(self): 
         self.x = 400
         self.y = 30
         self.image = load_image('resource\\image\\grass.png')
 
-    def draw(self):
-        self.image.draw(self.x, self.y)
+    def draw(self): 
+        self.image.draw(self.x, self.y) 
 
+        
 class Ball:
     def __init__(self): 
         self.x = 400
@@ -44,7 +45,8 @@ class Ball:
         self.bump = False
         self.y += self.speed
         self.speed -= self.acceleration
-        if self.y < 35:
+        
+        if self.y < 35:   
             self.y = 30
             self.speed = 28
             self.bump = True
@@ -52,53 +54,60 @@ class Ball:
     def update(self):
         self.jump()
         self.x += self.Direction * 5
+        
 
     def move_right(self):
         self.Direction += RIGHT
 
-    def move_left(self):
-        self.Direction += LEFT
+    def move_left(self): 
+        self.Direction += LEFT 
+ 
+ 
+    def stop_right(self): 
+        self.Direction -= RIGHT 
+  
+ 
+    def stop_left(self): 
+        self.Direction -= LEFT 
 
-    def stop_right(self):
-        self.Direction -= RIGHT
-
-    def stop_left(self):
-        self.Direction -= LEFT
-
+        
 def handle_events():
-    global running
+    global running 
     events = get_events()
 
-    for event in events:
-        if event.type == SDL_QUIT:
-            running = False
-        elif event.type == SDL_KEYDOWN:
-            if event.key == SDLK_ESCAPE:
-                running = False
-            elif event.key == SDLK_RIGHT:
-                ball.move_right()
+    for event in events: 
+        if event.type == SDL_QUIT: 
+            running = False 
+        elif event.type == SDL_KEYDOWN: 
+            if event.key == SDLK_ESCAPE: 
+                running = False 
+            elif event.key == SDLK_RIGHT: 
+                ball.move_right() 
+            elif event.key == SDLK_LEFT: 
+                ball.move_left() 
+        elif event.type == SDL_KEYUP: 
+            if event.key == SDLK_RIGHT: 
+                ball.stop_right() 
             elif event.key == SDLK_LEFT:
-                ball.move_left()
-        elif event.type == SDL_KEYUP:
-            if event.key == SDLK_RIGHT:
-                ball.stop_right()
-            elif event.key == SDLK_LEFT:
-                ball.stop_left()
-
+                ball.stop_left() 
+                
+    
 running = True
 grass = Grass()
 ball = Ball()
 
 while running:
-    
-    ball.update()
 
     clear_canvas()
+    
+    handle_events()
+    ball.update()
+    
     grass.draw()
     ball.draw()
-
+  
     update_canvas()
     delay(0.01)
-    handle_events()
-
+    
+    
 close_canvas()
