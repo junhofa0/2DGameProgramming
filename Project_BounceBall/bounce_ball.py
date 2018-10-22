@@ -22,6 +22,27 @@ class Block:
         self.r = 20
         self.state = state
         self.frame = random.randint(0, 3)
+
+    def draw(self):
+        global block_basic_image
+        global block_broken_image
+        global block_thorn_image
+        global block_jump_image
+        global block_right_image
+        global block_left_image
+
+        if self.state == 1:
+            block_basic_image.draw(self.x, self.y)
+        elif self.state == 2:
+            block_broken_image.draw(self.x, self.y)
+        elif self.state == 3:
+            block_thorn_image.clip_draw(self.frame * 40, 0, 40, 40, self.x, self.y)
+        elif self.state == 4:
+            block_jump_image.draw(self.x, self.y)
+        elif self.state == 5:
+            block_left_image.draw(self.x, self.y)
+        elif self.state == 6:
+            block_right_image.draw(self.x, self.y)
     
 class Grass: 
     def __init__(self): 
@@ -46,7 +67,7 @@ class Ball:
         self.Direction = 0
         self.col = False            # 충돌 여부 bool 변수 
         self.image = load_image('resource\\image\\ball.png')   
-        self.image2 = load_image('resource\\image\\bump_ball.png')
+        self.image2 = load_image('resource\\image\\ball_bump.png')
 
     def draw(self):
         if self.bump == False:
@@ -108,6 +129,13 @@ def handle_events():
 running = True
 grass = Grass()
 ball = Ball()
+star_image = load_image("resource\\image\\star_sheet.png")
+block_thorn_image = load_image("resource\\image\\thorn_sheet.png")
+block_left_image = load_image("resource\\image\\leftboost.png")
+block_right_image = load_image("resource\\image\\rightboost.png")
+block_jump_image = load_image("resource\\image\\jump.png")
+block_basic_image = load_image("resource\\image\\block.png")
+block_broken_image = load_image("resource\\image\\block_broken.png")
 
 while running:
 
