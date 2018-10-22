@@ -43,6 +43,9 @@ class Block:
             block_left_image.draw(self.x, self.y)
         elif self.state == 6:
             block_right_image.draw(self.x, self.y)
+
+    def update(self):
+        self.frame = (self.frame + 1) % 4
     
 class Grass: 
     def __init__(self): 
