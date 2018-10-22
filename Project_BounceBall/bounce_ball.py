@@ -9,7 +9,7 @@ STOP = 5
 
 open_canvas()
 
-class block:
+class Block:
     def __init__(self):
         pass
     
@@ -27,19 +27,22 @@ class Ball:
     def __init__(self): 
         self.x = 400
         self.y = 30
+        self.size = 30
+        self.r = 15
         self.bump = False
         self.acceleration = 3  # 가속도
         self.speed = 30            # 속도
         self.frame = 0
         self.Direction = 0
+        self.col = False            # 충돌 여부 bool 변수 
         self.image = load_image('resource\\image\\ball.png')   
         self.image2 = load_image('resource\\image\\bump_ball.png')
 
     def draw(self):
         if self.bump == False:
-            self.image.draw(self.x, self.y+30)
+            self.image.draw(self.x, self.y)
         elif self.bump == True:
-            self.image2.draw(self.x, self.y+30)
+            self.image2.draw(self.x, self.y)
 
     def jump(self):
         self.bump = False
