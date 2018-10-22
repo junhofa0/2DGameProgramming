@@ -10,8 +10,18 @@ STOP = 5
 open_canvas()
 
 class Block:
-    def __init__(self):
-        pass
+    x = None
+    y = None
+    image = None
+    state = None
+
+    def __init__(self, x, y, state):
+        self.x = x
+        self.y = y
+        self.size = 40
+        self.r = 20
+        self.state = state
+        self.frame = random.randint(0, 3)
     
 class Grass: 
     def __init__(self): 
