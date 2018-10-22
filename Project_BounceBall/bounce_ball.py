@@ -1,13 +1,13 @@
 from pico2d import *
+import random
 
-Window_width, Window_high = 800, 600
 LEFT = -1
 RIGHT = 1
 JUMP_DOWN = 2
 JUMP_UP = 3
 STOP = 5
 
-open_canvas()
+Window_width, Window_high = 800, 600
 
 class Block:
     x = None
@@ -105,29 +105,30 @@ class Ball:
   
  
     def stop_left(self): 
-        self.Direction -= LEFT 
+        self.Direction -= LEFT
 
-        
-def handle_events():
-    global running 
-    events = get_events()
+    def handle_events(self):
+        global running 
+        events = get_events()
 
-    for event in events: 
-        if event.type == SDL_QUIT: 
-            running = False 
-        elif event.type == SDL_KEYDOWN: 
-            if event.key == SDLK_ESCAPE: 
+        for event in events: 
+            if event.type == SDL_QUIT: 
                 running = False 
-            elif event.key == SDLK_RIGHT: 
-                ball.move_right() 
-            elif event.key == SDLK_LEFT: 
-                ball.move_left() 
-        elif event.type == SDL_KEYUP: 
-            if event.key == SDLK_RIGHT: 
-                ball.stop_right() 
-            elif event.key == SDLK_LEFT:
-                ball.stop_left() 
+            elif event.type == SDL_KEYDOWN: 
+                if event.key == SDLK_ESCAPE: 
+                    running = False 
+                elif event.key == SDLK_RIGHT: 
+                    ball.move_right() 
+                elif event.key == SDLK_LEFT: 
+                    ball.move_left() 
+            elif event.type == SDL_KEYUP: 
+                if event.key == SDLK_RIGHT: 
+                    ball.stop_right() 
+                elif event.key == SDLK_LEFT:
+                    ball.stop_left() 
+
                 
+open_canvas()
     
 running = True
 grass = Grass()
@@ -141,10 +142,10 @@ block_basic_image = load_image("resource\\image\\block.png")
 block_broken_image = load_image("resource\\image\\block_broken.png")
 
 while running:
+    ball.handle_events()
 
     clear_canvas()
     
-    handle_events()
     ball.update()
     
     grass.draw()
