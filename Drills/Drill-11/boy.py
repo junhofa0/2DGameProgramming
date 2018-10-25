@@ -110,24 +110,34 @@ class SleepState:
         else:
             boy.image.clip_composite_draw(boy.frame * 100, 200, 100, 100,
                                           -3.141592 / 2, '', boy.x + 25, boy.y - 25, 100, 100)
+            
 
-            class DashState:
+class DashState:
 
     @staticmethod
     def enter(boy, event):
-        pass
+        boy.timer = 50
 
     @staticmethod
     def exit(boy, event):
-        pass
+        if event == SPACE:
+            boy.fire_ball()
 
     @staticmethod
     def do(boy):
-        pass
+        boy.frame = (boy.frame + 1) % 8
+        boy.x += boy.velocity * 5
+        boy.x = clamp(25, boy.x, 1600 - 25)
+        boy.timer -= 1
+        if boy.timer == 0:
+            boy.add_event(DASH_UP)
 
     @staticmethod
     def draw(boy):
-       pass
+        if boy.velocity == 1:
+            boy.image.clip_draw(boy.frame * 100, 100, 100, 100, boy.x, boy.y)
+        else:
+            boy.image.clip_draw(boy.frame * 100, 0, 100, 100, boy.x, boy.y)
 
 
 next_state_table = {
@@ -142,7 +152,7 @@ next_state_table = {
     SleepState: {LEFT_DOWN: RunState, RIGHT_DOWN: RunState,
                  LEFT_UP: RunState, RIGHT_UP: RunState,
                  SPACE: IdleState, DASH_DOWN: IdleState,
-                 DASH_UP: IdleState}
+                 DASH_UP: IdleState},
     DashState: {LEFT_UP: IdleState, RIGHT_UP: IdleState,
                 LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState,
                 SPACE: DashState, DASH_UP: RunState}
