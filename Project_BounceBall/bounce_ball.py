@@ -21,7 +21,7 @@ class Ball:
         self.acceleration = 3  # 가속도
         self.speed = 30            # 속도
         self.frame = 0
-        self.Direction = 0
+        self.direction = 0
         self.col = False            # 충돌 여부 bool 변수 
         self.image = load_image('resource\\image\\ball.png')   
         self.image2 = load_image('resource\\image\\ball_bump.png')
@@ -52,7 +52,14 @@ class Ball:
                 self.jump_now(30)
 
     def side_collision(self):
-        pass
+        global blocks
+        for block in blocks:
+            if (abs(self.x - block.x) < block.r + self.r) and (abs(self.y - block.y) < block.r + self.r) and \
+                    abs(self.x - block.x) > abs(self.y - block.y):
+                if self.direction > 0 and self.x < block.x:
+                    self.x = block.x - block.r - self.r
+                elif self.direction < 0 and self.x > block.x:
+                    self.x = block.x + block.r + self.r
 
     def up_collision(self):
         pass
@@ -62,20 +69,20 @@ class Ball:
 
     def update(self):
         self.gravitation()
-        self.x += self.Direction * 5
+        self.x += self.direction * 5
         self.bottom_collision()
 
     def move_right(self):
-        self.Direction += RIGHT
+        self.direction += RIGHT
 
     def move_left(self): 
-        self.Direction += LEFT
+        self.direction += LEFT
  
     def stop_right(self): 
-        self.Direction -= RIGHT
+        self.direction -= RIGHT
  
     def stop_left(self): 
-        self.Direction -= LEFT
+        self.direction -= LEFT
 
 
 class Star:
@@ -91,7 +98,7 @@ class Star:
             self.image.clip_draw((self.frame // 3) * 40, 0, 40, 40, self.x, self.y)
 
     def set_state(self, state):
-        pass
+        self.state = state
 
     def update(self):
         self.frame = (self.frame + 1) % 24
