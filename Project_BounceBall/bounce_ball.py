@@ -5,7 +5,9 @@ LEFT = -1
 RIGHT = 1
 JUMP_DOWN = 2
 JUMP_UP = 3
-STOP = 5
+STOP = 10
+DIE = 0
+DYING = 11
 
 Window_width, Window_high = 800, 600
         
@@ -67,17 +69,16 @@ class Star:
         self.state = STOP
         self.frame = 0
         self.image = load_image("resource\\image\\star_sheet.png")
-        self.broken_image = load_image("resource\\image\\broken_s.png")
 
     def draw(self):
-        pass
-
+        if self.state != DIE:
+            self.image.clip_draw((self.frame // 3) * 40, 0, 40, 40, self.x, self.y)
 
     def set_state(self, state):
         pass
 
     def update(self):
-        pass
+        self.frame = (self.frame + 1) % 24
 
 
 
