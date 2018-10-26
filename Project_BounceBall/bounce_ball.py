@@ -42,21 +42,30 @@ class Ball:
             self.speed = 28
             self.bump = True
 
+    def bottom_collision(self):
+        pass
+
+    def side_collision(self):
+        pass
+
+    def up_collision(self):
+        pass
+
+    def star_col(self):
+        pass
+
     def update(self):
         self.jump()
         self.x += self.Direction * 5
-        
 
     def move_right(self):
         self.Direction += RIGHT
 
     def move_left(self): 
-        self.Direction += LEFT 
- 
+        self.Direction += LEFT
  
     def stop_right(self): 
-        self.Direction -= RIGHT 
-  
+        self.Direction -= RIGHT
  
     def stop_left(self): 
         self.Direction -= LEFT
