@@ -54,6 +54,7 @@ class Ball:
                     (block.y < self.y) and self.speed < 0:
                 self.set_position(self.x, block.y + block.r + self.r)
                 self.jump_now(15)
+                break
 
     def side_collision(self):
         global blocks
@@ -62,11 +63,20 @@ class Ball:
                     abs(self.x - block.x) > abs(self.y - block.y):
                 if self.direction > 0 and self.x < block.x:
                     self.set_position(block.x - block.r - self.r, self.y)
+                    break
                 elif self.direction < 0 and self.x > block.x:
                     self.set_position(block.x + block.r + self.r, self.y)
+                    break
 
     def up_collision(self):
-        pass
+        global blocks
+        for block in blocks:
+            if (abs(self.x - block.x) < block.r + self.r) and (self.y < block.y) and \
+                    (block.y - self.y < block.r + self.r):
+                self.set_position(self.x, block.y - block.r - self.r)
+                if self.speed > 0:
+                    self.speed = 0
+                break
 
     def star_col(self):
         pass
@@ -175,6 +185,9 @@ star = Star()
 blocks = []
 for i in range(20):
     blocks.append(Block(i*40, i*30, random.randint(1, 4)))
+
+for i in range(20):
+    blocks.append(Block(i*40, i*30 + 160, random.randint(1, 4)))
 
 while running:
     handle_events()
