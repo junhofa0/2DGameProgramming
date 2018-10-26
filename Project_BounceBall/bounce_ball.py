@@ -8,45 +8,6 @@ JUMP_UP = 3
 STOP = 5
 
 Window_width, Window_high = 800, 600
-
-class Block:
-    x = None
-    y = None
-    image = None
-    state = None
-
-    def __init__(self, x, y, state):
-        self.x = x
-        self.y = y
-        self.size = 40
-        self.r = 20
-        self.state = state
-        self.frame = random.randint(0, 3)
-
-    def draw(self):
-        global block_basic_image
-        global block_broken_image
-        global block_thorn_image
-        global block_jump_image
-        global block_right_image
-        global block_left_image
-
-        if self.state == 1:
-            block_basic_image.draw(self.x, self.y)
-        elif self.state == 2:
-            block_broken_image.draw(self.x, self.y)
-        elif self.state == 3:
-            block_thorn_image.clip_draw(self.frame * 40, 0, 40, 40, self.x, self.y)
-        elif self.state == 4:
-            block_jump_image.draw(self.x, self.y)
-        elif self.state == 5:
-            block_left_image.draw(self.x, self.y)
-        elif self.state == 6:
-            block_right_image.draw(self.x, self.y)
-
-    def update(self):
-        self.frame = (self.frame + 1) % 4
-
         
 class Ball:
     def __init__(self): 
@@ -99,6 +60,66 @@ class Ball:
         self.Direction -= LEFT
 
 
+class Star:
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        self.state = STOP
+        self.frame = 0
+        self.image = load_image("resource\\image\\star_sheet.png")
+        self.broken_image = load_image("resource\\image\\broken_s.png")
+
+    def draw(self):
+        pass
+
+
+    def set_state(self, state):
+        pass
+
+    def update(self):
+        pass
+
+
+
+class Block:
+    x = None
+    y = None
+    image = None
+    state = None
+
+    def __init__(self, x, y, state):
+        self.x = x
+        self.y = y
+        self.size = 40
+        self.r = 20
+        self.state = state
+        self.frame = random.randint(0, 3)
+
+    def draw(self):
+        global block_basic_image
+        global block_broken_image
+        global block_thorn_image
+        global block_jump_image
+        global block_right_image
+        global block_left_image
+
+        if self.state == 1:
+            block_basic_image.draw(self.x, self.y)
+        elif self.state == 2:
+            block_broken_image.draw(self.x, self.y)
+        elif self.state == 3:
+            block_thorn_image.clip_draw(self.frame * 40, 0, 40, 40, self.x, self.y)
+        elif self.state == 4:
+            block_jump_image.draw(self.x, self.y)
+        elif self.state == 5:
+            block_left_image.draw(self.x, self.y)
+        elif self.state == 6:
+            block_right_image.draw(self.x, self.y)
+
+    def update(self):
+        self.frame = (self.frame + 1) % 4
+
+
 def handle_events():
     global running
     events = get_events()
@@ -118,9 +139,10 @@ def handle_events():
                 ball.stop_right()
             elif event.key == SDLK_LEFT:
                 ball.stop_left()
-                
+
+
 open_canvas()
-    
+
 running = True
 ball = Ball()
 star_image = load_image("resource\\image\\star_sheet.png")
