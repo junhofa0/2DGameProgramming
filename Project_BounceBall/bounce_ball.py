@@ -22,19 +22,24 @@ class Ball:
         self.speed = 15            # 속도
         self.frame = 0
         self.direction = 0
+        self.state = STOP
         self.col = False            # 충돌 여부 bool 변수 
         self.image = load_image('resource\\image\\ball.png')   
         self.image2 = load_image('resource\\image\\ball_bump.png')
 
     def draw(self):
-        if self.bump == False:
-            self.image.draw(self.x, self.y)
-        elif self.bump == True:
-            self.image2.draw(self.x, self.y)
+        if self.state != DIE:
+            if self.bump == False:
+                self.image.draw(self.x, self.y)
+            elif self.bump == True:
+                self.image2.draw(self.x, self.y)
 
     def set_position(self, x, y):
         self.x = x
         self.y = y
+
+    def set_state(self, state):
+        self.state = state
 
     def jump_now(self, speed):
         self.speed = speed
@@ -58,8 +63,19 @@ class Ball:
         for block in blocks:
             if (abs(self.x - block.x) < block.r + self.r) and (self.y - block.y < block.r + self.r) and \
                     (block.y < self.y) and self.speed < 0:
-                self.set_position(self.x, block.y + block.r + self.r)
-                self.jump_now(15)
+                if block.state == 1:
+                    self.set_position(self.x, block.y + block.r + self.r)
+                    self.jump_now(15)
+                    self.col = True
+                elif block.state == 2:
+                    self.set_position(self.x, block.y + block.r + self.r)
+                    self.jump_now(15)
+                    block.state = DIE
+                    self.col = True
+                elif block.state == 4:
+                    self.set_position(self.x, block.y + block.r + self.r)
+                    self.jump_now(25)
+                    self.col = True
                 break
 
     def side_collision(self):
@@ -160,7 +176,7 @@ class Block:
     def draw(self):
         if self.state == 3:
             self.image.clip_draw((self.frame // 6) * 40, 0, 40, 40, self.x, self.y)
-        else:
+        elif self.state != DIE:
             self.image.draw(self.x, self.y)
 
     def update(self):
