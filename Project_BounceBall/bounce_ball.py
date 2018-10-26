@@ -46,15 +46,6 @@ class Block:
 
     def update(self):
         self.frame = (self.frame + 1) % 4
-    
-class Grass: 
-    def __init__(self): 
-        self.x = 400
-        self.y = 30
-        self.image = load_image('resource\\image\\grass.png')
-
-    def draw(self): 
-        self.image.draw(self.x, self.y) 
 
         
 class Ball:
@@ -131,7 +122,6 @@ class Ball:
 open_canvas()
     
 running = True
-grass = Grass()
 ball = Ball()
 star_image = load_image("resource\\image\\star_sheet.png")
 block_thorn_image = load_image("resource\\image\\thorn_sheet.png")
@@ -147,8 +137,7 @@ while running:
     clear_canvas()
     
     ball.update()
-    
-    grass.draw()
+
     ball.draw()
   
     update_canvas()
