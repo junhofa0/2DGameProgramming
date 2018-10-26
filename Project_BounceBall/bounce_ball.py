@@ -18,8 +18,8 @@ class Ball:
         self.size = 30
         self.r = 15
         self.bump = False
-        self.acceleration = 3  # 가속도
-        self.speed = 30            # 속도
+        self.acceleration = 1.5  # 가속도
+        self.speed = 15            # 속도
         self.frame = 0
         self.direction = 0
         self.col = False            # 충돌 여부 bool 변수 
@@ -53,7 +53,7 @@ class Ball:
             if (abs(self.x - block.x) < block.r + self.r) and (self.y - block.y < block.r + self.r) and \
                     (block.y < self.y) and self.speed < 0:
                 self.set_position(self.x, block.y + block.r + self.r)
-                self.jump_now(30)
+                self.jump_now(15)
 
     def side_collision(self):
         global blocks
@@ -75,6 +75,7 @@ class Ball:
         self.gravitation()
         self.x += self.direction * 5
         self.bottom_collision()
+        self.side_collision()
 
     def move_right(self):
         self.direction += RIGHT
