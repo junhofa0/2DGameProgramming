@@ -40,8 +40,6 @@ class Ball:
         self.bump = False
         self.y += self.speed
         self.speed -= self.acceleration
-        if self.y < 100:
-            self.jump_now(30)
 
     def bottom_collision(self):
         global blocks
