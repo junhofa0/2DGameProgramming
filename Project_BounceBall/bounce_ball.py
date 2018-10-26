@@ -79,7 +79,9 @@ class Ball:
                 break
 
     def star_col(self):
-        pass
+        global star
+        if ((star.x - self.x) ** 2 + (star.y - self.y) ** 2) ** 0.5 <= star.r:
+            star.set_state(DIE)
 
     def update(self):
         self.gravitation()
@@ -106,6 +108,7 @@ class Star:
         self.x = 500
         self.y = 500
         self.state = STOP
+        self.r = 20
         self.frame = 0
         self.image = load_image("resource\\image\\star_sheet.png")
 
