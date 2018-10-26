@@ -50,6 +50,12 @@ class Ball:
         self.col = False
 
         for block in blocks:
+            if (abs(self.x - block.x) < block.r + self.r) and (self.y - block.y < block.r + self.r - 20) and \
+                    block.y < self.y and self.state != DIE and self.state != DYING and self.speed < 0 and block.state == 3:  # 끝과 끝이 겹칠 때는 호출x
+                self.set_state(DIE)
+                break
+
+        for block in blocks:
             if (abs(self.x - block.x) < block.r + self.r) and (self.y - block.y < block.r + self.r) and \
                     (block.y < self.y) and self.speed < 0:
                 self.set_position(self.x, block.y + block.r + self.r)
