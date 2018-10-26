@@ -95,30 +95,27 @@ class Block:
         self.r = 20
         self.state = state
         self.frame = random.randint(0, 3)
+        if self.state == 1:
+            self.image = load_image("resource\\image\\block.png")
+        elif self.state == 2:
+            self.image = load_image("resource\\image\\block_broken.png")
+        elif self.state == 3:
+            self.image = load_image("resource\\image\\thorn_sheet.png")
+        elif self.state == 4:
+            self.image = load_image("resource\\image\\jump.png")
+        elif self.state == 5:
+            self.image = load_image("resource\\image\\leftboost.png")
+        elif self.state == 6:
+            self.image = load_image("resource\\image\\rightboost.png")
 
     def draw(self):
-        global block_basic_image
-        global block_broken_image
-        global block_thorn_image
-        global block_jump_image
-        global block_right_image
-        global block_left_image
-
-        if self.state == 1:
-            block_basic_image.draw(self.x, self.y)
-        elif self.state == 2:
-            block_broken_image.draw(self.x, self.y)
-        elif self.state == 3:
-            block_thorn_image.clip_draw(self.frame * 40, 0, 40, 40, self.x, self.y)
-        elif self.state == 4:
-            block_jump_image.draw(self.x, self.y)
-        elif self.state == 5:
-            block_left_image.draw(self.x, self.y)
-        elif self.state == 6:
-            block_right_image.draw(self.x, self.y)
+        if self.state == 3:
+            self.image.clip_draw((self.frame // 6) * 40, 0, 40, 40, self.x, self.y)
+        else:
+            self.image.draw(self.x, self.y)
 
     def update(self):
-        self.frame = (self.frame + 1) % 4
+        self.frame = (self.frame + 1) % 24
 
 
 def handle_events():
@@ -150,14 +147,6 @@ star = Star()
 blocks = []
 for i in range(20):
     blocks.append(Block(i*40, i*30, random.randint(1, 4)))
-
-star_image = load_image("resource\\image\\star_sheet.png")
-block_thorn_image = load_image("resource\\image\\thorn_sheet.png")
-block_left_image = load_image("resource\\image\\leftboost.png")
-block_right_image = load_image("resource\\image\\rightboost.png")
-block_jump_image = load_image("resource\\image\\jump.png")
-block_basic_image = load_image("resource\\image\\block.png")
-block_broken_image = load_image("resource\\image\\block_broken.png")
 
 while running:
     handle_events()
