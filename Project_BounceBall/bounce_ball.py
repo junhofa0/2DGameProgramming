@@ -14,7 +14,7 @@ Window_width, Window_high = 800, 600
 class Ball:
     def __init__(self): 
         self.x = 100
-        self.y = 100
+        self.y = 200
         self.size = 30
         self.r = 15
         self.bump = False
@@ -84,8 +84,8 @@ class Ball:
     def update(self):
         self.gravitation()
         self.x += self.direction * 5
-        self.bottom_collision()
         self.side_collision()
+        self.bottom_collision()
         self.up_collision()
 
     def move_right(self):
@@ -185,10 +185,10 @@ ball = Ball()
 star = Star()
 blocks = []
 for i in range(20):
-    blocks.append(Block(i*40, i*30, random.randint(1, 4)))
+    blocks.append(Block(i*40, i*60, random.randint(1, 4)))
 
 for i in range(20):
-    blocks.append(Block(i*40, i*30 + 160, random.randint(1, 4)))
+    blocks.append(Block(i*40, i*60 + 160, random.randint(1, 4)))
 
 while running:
     handle_events()
