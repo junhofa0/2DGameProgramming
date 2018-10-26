@@ -11,7 +11,7 @@ Window_width, Window_high = 800, 600
         
 class Ball:
     def __init__(self): 
-        self.x = 400
+        self.x = 100
         self.y = 30
         self.size = 30
         self.r = 15
@@ -145,6 +145,10 @@ open_canvas()
 
 running = True
 ball = Ball()
+blocks = []
+for i in range(20):
+    blocks.append(Block(i*40, i*30, random.randint(1, 4)))
+
 star_image = load_image("resource\\image\\star_sheet.png")
 block_thorn_image = load_image("resource\\image\\thorn_sheet.png")
 block_left_image = load_image("resource\\image\\leftboost.png")
@@ -157,11 +161,15 @@ while running:
     handle_events()
 
     clear_canvas()
-    
+
+    for block in blocks:
+        block.update()
     ball.update()
 
+    for block in blocks:
+        block.draw()
     ball.draw()
-  
+
     update_canvas()
     delay(0.01)
 
