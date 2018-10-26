@@ -89,6 +89,7 @@ class Ball:
         self.side_collision()
         self.bottom_collision()
         self.up_collision()
+        self.star_col()
 
     def move_right(self):
         self.direction += RIGHT
@@ -106,7 +107,7 @@ class Ball:
 class Star:
     def __init__(self):
         self.x = 500
-        self.y = 500
+        self.y = 550
         self.state = STOP
         self.r = 20
         self.frame = 0
@@ -188,10 +189,10 @@ ball = Ball()
 star = Star()
 blocks = []
 for i in range(20):
-    blocks.append(Block(i*40, i*60, random.randint(1, 4)))
+    blocks.append(Block(i*40, i*40, random.randint(1, 4)))
 
 for i in range(20):
-    blocks.append(Block(i*40, i*60 + 160, random.randint(1, 4)))
+    blocks.append(Block(i*40, i*40 + 160, random.randint(1, 4)))
 
 while running:
     handle_events()
