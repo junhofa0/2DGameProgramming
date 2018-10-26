@@ -32,6 +32,10 @@ class Ball:
         elif self.bump == True:
             self.image2.draw(self.x, self.y)
 
+    def set_position(self, x, y):
+        self.x = x
+        self.y = y
+
     def jump_now(self, speed):
         self.speed = speed
         self.bump = True
@@ -48,7 +52,7 @@ class Ball:
         for block in blocks:
             if (abs(self.x - block.x) < block.r + self.r) and (self.y - block.y < block.r + self.r) and \
                     (block.y < self.y) and self.speed < 0:
-                self.y = block.y + block.r + self.r
+                self.set_position(self.x, block.y + block.r + self.r)
                 self.jump_now(30)
 
     def side_collision(self):
@@ -57,9 +61,9 @@ class Ball:
             if (abs(self.x - block.x) < block.r + self.r) and (abs(self.y - block.y) < block.r + self.r) and \
                     abs(self.x - block.x) > abs(self.y - block.y):
                 if self.direction > 0 and self.x < block.x:
-                    self.x = block.x - block.r - self.r
+                    self.set_position(block.x - block.r - self.r, self.y)
                 elif self.direction < 0 and self.x > block.x:
-                    self.x = block.x + block.r + self.r
+                    self.set_position(block.x + block.r + self.r, self.y)
 
     def up_collision(self):
         pass
