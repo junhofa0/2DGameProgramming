@@ -64,8 +64,8 @@ class Ball:
 
 class Star:
     def __init__(self):
-        self.x = 0
-        self.y = 0
+        self.x = 500
+        self.y = 500
         self.state = STOP
         self.frame = 0
         self.image = load_image("resource\\image\\star_sheet.png")
@@ -146,6 +146,7 @@ open_canvas()
 
 running = True
 ball = Ball()
+star = Star()
 blocks = []
 for i in range(20):
     blocks.append(Block(i*40, i*30, random.randint(1, 4)))
@@ -160,13 +161,14 @@ block_broken_image = load_image("resource\\image\\block_broken.png")
 
 while running:
     handle_events()
-
     clear_canvas()
 
+    star.update()
     for block in blocks:
         block.update()
     ball.update()
 
+    star.draw()
     for block in blocks:
         block.draw()
     ball.draw()
