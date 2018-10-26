@@ -14,7 +14,7 @@ Window_width, Window_high = 800, 600
 class Ball:
     def __init__(self): 
         self.x = 100
-        self.y = 30
+        self.y = 100
         self.size = 30
         self.r = 15
         self.bump = False
@@ -86,6 +86,7 @@ class Ball:
         self.x += self.direction * 5
         self.bottom_collision()
         self.side_collision()
+        self.up_collision()
 
     def move_right(self):
         self.direction += RIGHT
