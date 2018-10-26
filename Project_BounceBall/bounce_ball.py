@@ -142,6 +142,5 @@ while running:
   
     update_canvas()
     delay(0.01)
-    
-    
+
 close_canvas()
