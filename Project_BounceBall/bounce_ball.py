@@ -213,9 +213,6 @@ blocks = []
 for i in range(20):
     blocks.append(Block(i*40, i*40, random.randint(1, 4)))
 
-for i in range(20):
-    blocks.append(Block(i*40, i*40 + 160, random.randint(1, 4)))
-
 while running:
     handle_events()
     clear_canvas()

@@ -6,6 +6,7 @@ open_canvas()
 grass = load_image('grass.png')
 character = load_image('character.png')
 
+<<<<<<< HEAD
 def move_from_center_to_right():
     x, y = 800 // 2, 90
     while x < 800 - 25:
@@ -77,6 +78,9 @@ def make_circle():
 while True:
     make_rectangle()
     make_circle()
+=======
+#여기를 채워 넣으시오
+>>>>>>> parent of ed0b5b2... Drill_05
 
 
 close_canvas()
