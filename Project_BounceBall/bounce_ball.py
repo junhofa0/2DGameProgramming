@@ -5,6 +5,8 @@ LEFT = -1
 RIGHT = 1
 JUMP_DOWN = 2
 JUMP_UP = 3
+LEFT_BOOST = 4
+RIGHT_BOOST = 5
 STOP = 10   # 객체가 멈춰 있을 때(살아 있을 때)
 DIE = 0     # 객체가 죽었을 때(사라졌을 때 )=> 볼과 블럭, 별의 DYING 상태가 끝난 후
 DYING = 11  # 객체가 죽어가는 중 => 볼의 터지는 애이메이션, 블럭의 깨지는 애니메이션, 별의 클리어 애니메이션 상태 등
@@ -113,11 +115,14 @@ class Ball:
 
     def update(self):
         self.gravitation()
-        self.x += self.direction * 5
+        self.move()
         self.side_collision()
         self.bottom_collision()
         self.up_collision()
         self.star_col()
+
+    def move(self):
+        self.x += self.direction * 3
 
     def move_right(self):
         self.direction += RIGHT
