@@ -66,6 +66,7 @@ while running:
     clear_canvas()
 
     handle_events()
+    Draw_mouse()
     update_canvas()
 
     delay(0.01)
