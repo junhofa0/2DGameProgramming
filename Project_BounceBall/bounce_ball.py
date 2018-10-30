@@ -84,6 +84,14 @@ class Ball:
                     self.set_position(self.x, block.y + block.r + self.r)
                     self.jump_now(25)
                     self.col = True
+                elif block.state == 5:
+                    self.set_position(block.x - block.r - self.r, block.y)
+                    self.set_boosting(LEFT_BOOST, 10)
+                    self.col = True
+                elif block.state == 6:
+                    self.set_position(block.x + block.r + self.r, block.y)
+                    self.set_boosting(RIGHT_BOOST, 10)
+                    self.col = True
                 break
 
     def side_collision(self):
