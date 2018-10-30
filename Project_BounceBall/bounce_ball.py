@@ -50,6 +50,12 @@ class Ball:
         self.y += self.speed
         self.speed -= self.acceleration
 
+    def boosting(self, fire_speed):
+        if self.state == LEFT_BOOST:
+            self.x -= fire_speed
+        elif self.state == RIGHT_BOOST:
+            self.x += fire_speed
+
     def bottom_collision(self):
         global blocks
         self.col = False
