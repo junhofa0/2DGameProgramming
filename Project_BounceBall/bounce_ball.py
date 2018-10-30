@@ -171,6 +171,7 @@ class Ball:
          if self.state == LEFT_BOOST or self.state == RIGHT_BOOST:
             self.boosting(self.fire_speed)
             self.side_collision()
+            self.boost_side_collision()
          else:
             if self.state != DIE and self.state != DYING:
                 self.move()
