@@ -70,29 +70,61 @@ class Ball:
 
         for block in blocks:
             if (abs(self.x - block.x) < block.r + self.r) and (self.y - block.y < block.r + self.r) and \
-                    (block.y < self.y) and self.speed < 0:
-                if block.state == 1:
-                    self.set_position(self.x, block.y + block.r + self.r)
-                    self.jump_now(15)
-                    self.col = True
-                elif block.state == 2:
-                    self.set_position(self.x, block.y + block.r + self.r)
-                    self.jump_now(15)
-                    block.state = DIE
-                    self.col = True
-                elif block.state == 4:
-                    self.set_position(self.x, block.y + block.r + self.r)
-                    self.jump_now(25)
-                    self.col = True
-                elif block.state == 5:
-                    self.set_position(block.x - block.r - self.r, block.y)
-                    self.set_boosting(LEFT_BOOST, 10)
-                    self.col = True
-                elif block.state == 6:
-                    self.set_position(block.x + block.r + self.r, block.y)
-                    self.set_boosting(RIGHT_BOOST, 10)
-                    self.col = True
+                    (block.y < self.y) and self.speed < 0 :
+                if (self.x <= block.x + block.r) and (self.x >= block.x - block.r) and block.state != DIE:
+                    if block.state == 1:
+                        self.set_position(self.x, block.y + block.r + self.r)
+                        self.jump_now(15)
+                        self.col = True
+                    elif block.state == 2:
+                        self.set_position(self.x, block.y + block.r + self.r)
+                        self.jump_now(15)
+                        block.state = DIE
+                        self.col = True
+                    elif block.state == 4:
+                        self.set_position(self.x, block.y + block.r + self.r)
+                        self.jump_now(25)
+                        self.col = True
+                    elif block.state == 5:
+                        self.set_position(block.x - block.r - self.r, block.y)
+                        self.set_boosting(LEFT_BOOST, 10)
+                        self.col = True
+                    elif block.state == 6:
+                        self.set_position(block.x + block.r + self.r, block.y)
+                        self.set_boosting(RIGHT_BOOST, 10)
+                        self.col = True
+            if self.col == False:
                 break
+
+        for block in blocks:
+            if (abs(self.x - block.x) < block.r + self.r) and (self.y - block.y < block.r + self.r) and \
+                    (block.y < self.y) and self.speed < 0 and self.state != DIE and self.state != DYING and block.state != DYING:
+                if ((self.x > block.x + block.r) or (self.x <= block.x - block.r)) and block.state != DIE:
+                    if block.state == 1:
+                        self.set_position(self.x, block.y + block.r + self.r)
+                        self.jump_now(8)
+                        self.col = True
+                    elif block.state == 2:
+                        self.set_position(self.x, block.y + block.r + self.r)
+                        self.jump_now(8)
+                        block.state = DYING  ####
+                        self.col = True
+                    elif block.state == 4:
+                        self.set_position(self.x, block.y + block.r + self.r)
+                        self.jump_now(12.5)
+                        self.col = True
+                    elif block.state == 5:
+                        self.set_position(block.x - block.r - self.r, block.y)
+                        self.set_boosting(LEFT_BOOST, 18)
+                        self.col = True
+                    elif block.state == 6:
+                        self.set_position(block.x + block.r + self.r, block.y)
+                        self.set_boosting(RIGHT_BOOST, 18)
+                        self.col = True
+            if self.col == True:
+                break
+
+            
 
     def side_collision(self):
         global blocks
@@ -125,15 +157,15 @@ class Ball:
          if self.state == LEFT_BOOST or self.state == RIGHT_BOOST:
             self.boosting(self.fire_speed)
             self.side_collision()
-        else:
+         else:
             if self.state != DIE and self.state != DYING:
                 self.move()
                 self.gravitation()
                 if self.direction != 0:
                     self.side_collision()
-        self.bottom_collision()
-        self.up_collision()
-        self.star_col()
+            self.bottom_collision()
+            self.up_collision()
+            self.star_col()
 
     def move(self):
         self.x += self.direction * 3
