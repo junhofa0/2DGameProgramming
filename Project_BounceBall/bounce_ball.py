@@ -123,7 +123,6 @@ class Ball:
                         self.col = True
             if self.col == True:
                 break
-
             
 
     def side_collision(self):
@@ -137,6 +136,21 @@ class Ball:
                 elif self.direction < 0 and self.x > block.x:
                     self.set_position(block.x + block.r + self.r, self.y)
                     break
+
+    def boost_side_collision(self):
+        global blocks
+        for block in blocks:
+            if self.state != DIE and (abs(self.x - block.x) < block.r + self.r) and (
+                    abs(self.y - block.y) < block.r + self.r) and \
+                    block.state != DIE and block.state != DYING and block.state != 7 and block.state != 77 and self.state != DYING:
+
+                self.speed = 0
+                self.set_state(STOP)
+
+                if self.x > block.x:
+                    self.set_position(block.x + block.r + self.r, self.y)
+                elif self.x < block.x:
+                    self.set_position(block.x - block.r - self.r, self.y)
 
     def up_collision(self):
         global blocks
