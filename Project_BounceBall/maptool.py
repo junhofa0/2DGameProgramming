@@ -3,6 +3,12 @@ import random
 
 running = True
 
+
+window_width, window_height = 1000, 600
+open_canvas(window_width, window_height)
+hide_cursor()
+
+
 ball_image = load_image("resource\\image\\ball.png")
 star_image = load_image("resource\\image\\star_sheet.png")
 block_thorn_image = load_image("resource\\image\\thorn_sheet.png")
@@ -13,6 +19,33 @@ block_basic_image = load_image("resource\\image\\block.png")
 block_broken_image = load_image("resource\\image\\block_broken.png")
 mouse_image = load_image("resource\\image\\mouse.png")
 mouse_click_image = load_image("resource\\image\\mouse_click.png")
+mouse_down = False
+
+
+
+def handle_events():
+    global running
+    global mouse_x
+    global mouse_y
+
+    events = get_events()
+
+    for event in events:
+        if event.type == SDL_QUIT:
+            running = False
+
+        elif event.type == SDL_MOUSEMOTION:
+            mouse_x, mouse_y = event.x, window_height - 1 - event.y
+
 
 while running:
-    
+    clear_canvas()
+
+    handle_events()
+    update_canvas()
+
+    delay(0.01)
+
+
+
+close_canvas();
