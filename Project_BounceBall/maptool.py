@@ -37,7 +37,18 @@ def handle_events():
         elif event.type == SDL_MOUSEMOTION:
             mouse_x, mouse_y = event.x, window_height - 1 - event.y
 
+        elif event.type == SDL_MOUSEBUTTONDOWN:
+            if event.button == SDL_BUTTON_LEFT:
+                mouse_down = True
+                mouse_x, mouse_y = event.x, window_height - 1 - event.y
+                if mouse_x <= 799:
+                    pass
+                else:
+                    pass
 
+        elif event.type == SDL_MOUSEBUTTONUP:
+            if event.button == SDL_BUTTON_LEFT:
+                mouse_down = False
 while running:
     clear_canvas()
 
