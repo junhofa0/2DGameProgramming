@@ -27,6 +27,7 @@ def handle_events():
     global running
     global mouse_x
     global mouse_y
+    global mouse_down
 
     events = get_events()
 
@@ -49,6 +50,18 @@ def handle_events():
         elif event.type == SDL_MOUSEBUTTONUP:
             if event.button == SDL_BUTTON_LEFT:
                 mouse_down = False
+
+def Draw_mouse():
+    global mouse_x, mouse_y
+    global mouse_down
+    global mouse_image
+    global mouse_click_image
+
+    if mouse_down:
+        mouse_click_image.draw(mouse_x + 18, mouse_y - 6, 40, 40)
+    else:
+        mouse_image.draw(mouse_x + 18, mouse_y - 6, 40, 40)
+
 while running:
     clear_canvas()
 
