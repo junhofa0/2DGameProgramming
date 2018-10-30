@@ -156,7 +156,8 @@ class Ball:
         global blocks
         for block in blocks:
             if (abs(self.x - block.x) < block.r + self.r) and (self.y < block.y) and \
-                    (block.y - self.y < block.r + self.r):
+                    (block.y - self.y < block.r + self.r) and self.state != DIE and block.state != DYING and \
+                    and block.state != DIE and self.state != DYING:
                 self.set_position(self.x, block.y - block.r - self.r)
                 if self.speed > 0:
                     self.speed = 0
@@ -168,19 +169,19 @@ class Ball:
             star.set_state(DIE)
 
     def update(self):
-         if self.state == LEFT_BOOST or self.state == RIGHT_BOOST:
+        if self.state == LEFT_BOOST or self.state == RIGHT_BOOST:
             self.boosting(self.fire_speed)
             self.side_collision()
             self.boost_side_collision()
-         else:
+        else:
             if self.state != DIE and self.state != DYING:
                 self.move()
                 self.gravitation()
                 if self.direction != 0:
                     self.side_collision()
-            self.bottom_collision()
-            self.up_collision()
-            self.star_col()
+        self.bottom_collision()
+        self.up_collision()
+        self.star_col()
 
     def move(self):
         self.x += self.direction * 3
