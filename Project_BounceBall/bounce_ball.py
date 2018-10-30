@@ -114,9 +114,15 @@ class Ball:
             star.set_state(DIE)
 
     def update(self):
-        self.gravitation()
-        self.move()
-        self.side_collision()
+         if self.state == LEFT_BOOST or self.state == RIGHT_BOOST:
+            self.boosting(self.fire_speed)
+            self.side_collision()
+        else:
+            if self.state != DIE and self.state != DYING:
+                self.move()
+                self.gravitation()
+                if self.direction != 0:
+                    self.side_collision()
         self.bottom_collision()
         self.up_collision()
         self.star_col()
