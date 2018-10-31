@@ -41,6 +41,22 @@ class Ball:
         if (self.x != None) and (self.y != None):
             ball_image.draw(self.x, self.y)
 
+class Star:
+
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        self.size = 40
+        self.frame = 0
+
+    def draw(self):
+        global star_image
+        if (self.x != None) and (self.y != None):
+            star_image.clip_draw((self.frame//5) * 40, 0, 40, 40, self.x, self.y)
+
+    def update(self):
+        self.frame = (self.frame + 1) % 40
+
 def handle_events():
     global running
     global mouse_x
