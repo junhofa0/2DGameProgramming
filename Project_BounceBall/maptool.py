@@ -149,9 +149,17 @@ def handle_events():
                 mouse_down = True
                 mouse_x, mouse_y = event.x, window_height - 1 - event.y
                 if mouse_x <= 799:
-                    pass
-                else:
-                    pass
+                    if (current_image >= 0) and (current_image <= 6):
+                        pass
+                    elif current_image == 7:
+                        pass
+                    elif current_image == 8:
+                        pass
+                    elif current_image == 9:
+                        pass
+
+            elif event.button == SDL_BUTTON_RIGHT:
+                pass
 
         elif event.type == SDL_MOUSEBUTTONUP:
             if event.button == SDL_BUTTON_LEFT:
