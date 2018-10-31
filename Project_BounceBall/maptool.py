@@ -115,6 +115,9 @@ def handle_events():
     global select_x
     global select_y
     global select_coor
+    global current_image
+    global portal_blue
+    global portal_yellow
 
     events = get_events()
 
@@ -124,6 +127,15 @@ def handle_events():
 
         elif event.type == SDL_MOUSEMOTION:
             mouse_x, mouse_y = event.x, window_height - 1 - event.y
+            if mouse_x <= 799:
+                if mouse_down and (current_image >= 0) and (current_image <= 6):
+                    if blocks[(mouse_x // 40) + (mouse_y // 40) * 20].state == 7:
+                        blocks[(mouse_x // 40) + (mouse_y // 40) * 20].state = 0
+                        portal_blue = False
+                    if blocks[(mouse_x // 40) + (mouse_y // 40) * 20].state == 77:
+                        blocks[(mouse_x // 40) + (mouse_y // 40) * 20].state = 0
+                        portal_yellow = False
+                    blocks[(mouse_x // 40) + (mouse_y // 40) * 20].state = current_image
 
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_ESCAPE:
@@ -252,7 +264,11 @@ while running:
 
     select_menu_image.draw(900, 300)
     select_image.draw(select_x, select_y)
+    for block in blocks:
+        block.draw()
+    ball.draw()
     Draw_mouse()
+    star.draw()
 
     update_canvas()
 
