@@ -163,11 +163,11 @@ def save_file():
     if os.path.exists(fname):
         answer = input("기존에 존재하는 파일이 있습니다. 덮어쓰시겠습니까? Y/N  ")
         if answer == 'y' or answer == 'Y':
-            pass
+            Fop = open(fname, "w")
         elif answer == 'n' or answer == 'N':
             pass
     else:
-        pass
+        Fop = open(fname, "w")
 
 def load_file():
     pass
