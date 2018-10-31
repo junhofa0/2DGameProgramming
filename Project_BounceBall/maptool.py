@@ -150,11 +150,20 @@ def handle_events():
                 mouse_x, mouse_y = event.x, window_height - 1 - event.y
                 if mouse_x <= 799:
                     if (current_image >= 0) and (current_image <= 6):
-                        pass
+                        if blocks[(mouse_x // 40) + (mouse_y // 40) * 20].state == 7:
+                            blocks[(mouse_x // 40) + (mouse_y // 40) * 20].state = 0
+                            portal_blue = False
+                        if blocks[(mouse_x // 40) + (mouse_y // 40) * 20].state == 77:
+                            blocks[(mouse_x // 40) + (mouse_y // 40) * 20].state = 0
+                            portal_yellow = False
+                        blocks[(mouse_x // 40) + (mouse_y // 40) * 20].state = current_image
+                        
                     elif current_image == 7:
                         pass
+
                     elif current_image == 8:
                         star.x, star.y = mouse_x, mouse_y
+
                     elif current_image == 9:
                         ball.x, ball.y = mouse_x, mouse_y
 
