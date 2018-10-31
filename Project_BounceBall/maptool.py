@@ -26,6 +26,9 @@ portal_out_image = load_image("resource\\image\\portal_out.png")
 mouse_down = False
 select_x, select_y = None, None
 mouse_x, mouse_y = None, None
+current_image = 0
+portal_blue = False
+portal_yellow = False
 
 select_coor = {}
 select_coor = {1: (845, 477), 2: (901, 477), 3: (955, 477), 4: (845, 376), 5: (901, 376), 6: (955, 376),
@@ -228,8 +231,20 @@ def load_file():
         print("해당 파일이 존재하지 않습니다.\n")
 
 ball = Ball()
-blocks = []
+blocks = [Block() for n in range(300)]
 star = Star()
+count = 0
+row, rank = 1, 1
+for block in blocks:
+    block.x = (row - 1) * 40 + 20
+    block.y = (rank - 1) * 40 + 20
+    row += 1
+    count += 1
+    if count == 20:
+        row = 1
+        rank += 1
+        count = 0
+
 
 while running:
     clear_canvas()
