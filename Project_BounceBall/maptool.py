@@ -148,6 +148,8 @@ def handle_events():
                 select_x, select_y = select_coor[current_image]
             elif event.key == SDLK_s:
                 save_file()
+            elif event.key == SDLK_l:
+                load_file()
 
         elif event.type == SDL_MOUSEBUTTONDOWN:
             if event.button == SDL_BUTTON_LEFT:
