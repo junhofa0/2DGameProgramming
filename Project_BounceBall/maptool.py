@@ -157,9 +157,22 @@ def handle_events():
                             blocks[(mouse_x // 40) + (mouse_y // 40) * 20].state = 0
                             portal_yellow = False
                         blocks[(mouse_x // 40) + (mouse_y // 40) * 20].state = current_image
-                        
+
                     elif current_image == 7:
-                        pass
+                        if portal_blue == False:
+                            current_image = 7
+                            portal_blue = True
+                        elif portal_blue == True:
+                            if portal_yellow == True:
+                                for block in blocks:
+                                    if block.state == 7 or block.state == 77:
+                                        block.state = 0
+                                current_image = 7
+                                portal_yellow = False
+                            else:
+                                current_image = 77
+                                portal_yellow = True
+                        blocks[(mouse_x // 40) + (mouse_y // 40) * 20].state = current_image
 
                     elif current_image == 8:
                         star.x, star.y = mouse_x, mouse_y
