@@ -172,6 +172,9 @@ def save_file():
                 Fop.write(str(block.x) + '\n')
                 Fop.write(str(block.y) + '\n')
                 Fop.write(str(block.state) + '\n')
+
+            Fop.close()
+            print("파일 덮어쓰기가 완료 되었습니다!!\n")
         elif answer == 'n' or answer == 'N':
             pass
     else:
@@ -184,6 +187,9 @@ def save_file():
             Fop.write(str(block.x) + '\n')
             Fop.write(str(block.y) + '\n')
             Fop.write(str(block.state) + '\n')
+
+        Fop.close()
+        print("새로운 파일이 생성 되었습니다!!\n")
 
 def load_file():
     pass
