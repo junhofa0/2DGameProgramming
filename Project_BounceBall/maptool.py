@@ -31,6 +31,49 @@ select_coor = {1: (845, 477), 2: (901, 477), 3: (955, 477), 4: (845, 376), 5: (9
                    7: (845, 276), 8: (901, 276), 9: (955, 276), 0: (900, 70)}
 select_x, select_y = select_coor[0]
 
+class Block:
+    x = 0
+    y = 0
+    size = None
+
+    def __init__(self):
+        self.frame = random.randint(0, 3)
+        self.portalframe = 0
+        Block.state = 0
+        Block.size = 40
+
+    def draw(self):
+        global block_basic_image
+        global block_thorn_image
+        global block_broken_image
+        global block_jump_image
+        global block_left_image
+        global block_right_image
+        global portal_in_image
+        global portal_out_image
+
+        if self.state == 1:
+            block_basic_image.draw(self.x, self.y)
+        elif self.state == 2:
+            block_broken_image.draw(self.x, self.y)
+        elif self.state == 3:
+            block_thorn_image.clip_draw((self.frame//10) * 40, 0, 40, 40, self.x, self.y)
+        elif self.state == 4:
+            block_jump_image.draw(self.x, self.y)
+        elif self.state == 5:
+            block_left_image.draw(self.x, self.y)
+        elif self.state == 6:
+            block_right_image.draw(self.x, self.y)
+        elif self.state == 7:
+            portal_in_image.clip_draw((self.portalframe//10) * 40, 0, 40, 40, self.x, self.y)
+        elif self.state == 77:
+            portal_out_image.clip_draw((self.portalframe // 10) * 40, 0, 40, 40, self.x, self.y)
+
+    def update(self):
+        self.frame = (self.frame + 1) % 50
+        self.portalframe = (self.portalframe + 1) % 120
+
+
 class Ball:
 
     def __init__(self):
