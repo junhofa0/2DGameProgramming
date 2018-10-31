@@ -20,6 +20,12 @@ block_broken_image = load_image("resource\\image\\block_broken.png")
 mouse_image = load_image("resource\\image\\mouse.png")
 mouse_click_image = load_image("resource\\image\\mouse_click.png")
 mouse_down = False
+select_x, select_y = None, None
+#mouse_x, mouse_y = None, None
+select_coor = {}
+select_coor = {1: (845, 477), 2: (901, 477), 3: (955, 477), 4: (845, 376), 5: (901, 376), 6: (955, 376),
+                   7: (845, 276), 8: (901, 276), 9: (955, 276), 0: (900, 70)}
+select_x, select_y = select_coor[0]
 
 
 
@@ -28,6 +34,9 @@ def handle_events():
     global mouse_x
     global mouse_y
     global mouse_down
+    global select_x
+    global select_y
+    global select_coor
 
     events = get_events()
 
@@ -37,6 +46,13 @@ def handle_events():
 
         elif event.type == SDL_MOUSEMOTION:
             mouse_x, mouse_y = event.x, window_height - 1 - event.y
+
+        elif event.type == SDL_KEYDOWN:
+            if event.key == SDLK_ESCAPE:
+                running = False
+            elif (event.key >= SDLK_0) and (event.key <= SDLK_9):  # 48 <= event.key <= 57
+                current_image = event.key - 48
+                select_x, select_y = select_coor[current_image]
 
         elif event.type == SDL_MOUSEBUTTONDOWN:
             if event.button == SDL_BUTTON_LEFT:
