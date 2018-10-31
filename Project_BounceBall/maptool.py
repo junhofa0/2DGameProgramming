@@ -220,6 +220,10 @@ def load_file():
             block.x = int(bx)
             block.y = int(by)
             block.state = int(bstate)
+
+        inF.close()
+        print("해당 파일을 불러 왔습니다..\n")
+
     else:
         print("해당 파일이 존재하지 않습니다.\n")
 
