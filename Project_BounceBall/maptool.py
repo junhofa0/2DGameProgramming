@@ -29,7 +29,17 @@ select_coor = {1: (845, 477), 2: (901, 477), 3: (955, 477), 4: (845, 376), 5: (9
                    7: (845, 276), 8: (901, 276), 9: (955, 276), 0: (900, 70)}
 select_x, select_y = select_coor[0]
 
+class Ball:
 
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        self.size = 30
+
+    def draw(self):
+        global ball_image
+        if (self.x != None) and (self.y != None):
+            ball_image.draw(self.x, self.y)
 
 def handle_events():
     global running
