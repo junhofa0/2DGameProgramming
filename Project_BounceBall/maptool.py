@@ -25,17 +25,13 @@ portal_in_image = load_image("resource\\image\\portal_in.png")
 portal_out_image = load_image("resource\\image\\portal_out.png")
 mouse_down = False
 select_x, select_y = None, None
-#mouse_x, mouse_y = None, None
+mouse_x, mouse_y = None, None
+
 select_coor = {}
 select_coor = {1: (845, 477), 2: (901, 477), 3: (955, 477), 4: (845, 376), 5: (901, 376), 6: (955, 376),
                    7: (845, 276), 8: (901, 276), 9: (955, 276), 0: (900, 70)}
 select_x, select_y = select_coor[0]
 
-def save_file():
-    pass
-
-def load_file():
-    pass
 
 class Block:
     x = 0
@@ -157,6 +153,21 @@ def Draw_mouse():
     else:
         mouse_image.draw(mouse_x + 18, mouse_y - 6, 40, 40)
 
+def save_file():
+    global ball
+    global star
+    global blocks
+
+    fstr = input("파일저장 - 생성할 파일 이름 입력 : ")
+    fname = "map\\" + fstr + ".txt"
+
+def load_file():
+    pass
+
+ball = Ball()
+blocks = []
+star = Star()
+
 while running:
     clear_canvas()
     handle_events()
@@ -169,6 +180,4 @@ while running:
 
     delay(0.01)
 
-
-
-close_canvas();
+close_canvas()
