@@ -160,6 +160,8 @@ def save_file():
 
     fstr = input("파일저장 - 생성할 파일 이름 입력 : ")
     fname = "map\\" + fstr + ".txt"
+    if os.path.exists(fname):
+        answer = input("기존에 존재하는 파일이 있습니다. 덮어쓰시겠습니까? Y/N  ")
 
 def load_file():
     pass
