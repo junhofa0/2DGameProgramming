@@ -82,9 +82,12 @@ def Draw_mouse():
 
 while running:
     clear_canvas()
-
     handle_events()
+
+    select_menu_image.draw(900, 300)
+    select_image.draw(select_x, select_y)
     Draw_mouse()
+
     update_canvas()
 
     delay(0.01)
