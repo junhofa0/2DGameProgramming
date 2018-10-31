@@ -164,10 +164,26 @@ def save_file():
         answer = input("기존에 존재하는 파일이 있습니다. 덮어쓰시겠습니까? Y/N  ")
         if answer == 'y' or answer == 'Y':
             Fop = open(fname, "w")
+            Fop.write(str(ball.x) + '\n')
+            Fop.write(str(ball.y) + '\n')
+            Fop.write(str(star.x) + '\n')
+            Fop.write(str(star.y) + '\n')
+            for block in blocks:
+                Fop.write(str(block.x) + '\n')
+                Fop.write(str(block.y) + '\n')
+                Fop.write(str(block.state) + '\n')
         elif answer == 'n' or answer == 'N':
             pass
     else:
         Fop = open(fname, "w")
+        Fop.write(str(ball.x) + '\n')
+        Fop.write(str(ball.y) + '\n')
+        Fop.write(str(star.x) + '\n')
+        Fop.write(str(star.y) + '\n')
+        for block in blocks:
+            Fop.write(str(block.x) + '\n')
+            Fop.write(str(block.y) + '\n')
+            Fop.write(str(block.state) + '\n')
 
 def load_file():
     pass
