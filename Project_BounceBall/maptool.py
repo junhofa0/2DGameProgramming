@@ -154,9 +154,9 @@ def handle_events():
                     elif current_image == 7:
                         pass
                     elif current_image == 8:
-                        pass
+                        star.x, star.y = mouse_x, mouse_y
                     elif current_image == 9:
-                        pass
+                        ball.x, ball.y = mouse_x, mouse_y
 
             elif event.button == SDL_BUTTON_RIGHT:
                 pass
