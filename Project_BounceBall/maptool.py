@@ -202,6 +202,24 @@ def load_file():
 
     if os.path.exists(fname):
         inF = open(fname, "r")
+
+        line = inF.readline()
+        ball.x = int(line)
+        line = inF.readline()
+        ball.y = int(line)
+
+        line = inF.readline()
+        star.x = int(line)
+        line = inF.readline()
+        star.y = int(line)
+
+        for block in blocks:
+            bx = inF.readline()
+            by = inF.readline()
+            bstate = inF.readline()
+            block.x = int(bx)
+            block.y = int(by)
+            block.state = int(bstate)
     else:
         print("해당 파일이 존재하지 않습니다.\n")
 
