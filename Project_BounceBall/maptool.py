@@ -200,6 +200,11 @@ def load_file():
     fname = "map\\" + fstr + ".txt"
     print(fname)
 
+    if os.path.exists(fname):
+        inF = open(fname, "r")
+    else:
+        print("해당 파일이 존재하지 않습니다.\n")
+
 ball = Ball()
 blocks = []
 star = Star()
