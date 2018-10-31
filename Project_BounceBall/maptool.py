@@ -192,7 +192,13 @@ def save_file():
         print("새로운 파일이 생성 되었습니다!!\n")
 
 def load_file():
-    pass
+    global star
+    global blocks
+    global ball
+
+    fstr = input("파일 불러오기 - 불러올 파일 이름 입력 : ")
+    fname = "map\\" + fstr + ".txt"
+    print(fname)
 
 ball = Ball()
 blocks = []
