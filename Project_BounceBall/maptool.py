@@ -146,6 +146,8 @@ def handle_events():
             elif (event.key >= SDLK_0) and (event.key <= SDLK_9):  # 48 <= event.key <= 57
                 current_image = event.key - 48
                 select_x, select_y = select_coor[current_image]
+            elif event.key == SDLK_s:
+                save_file()
 
         elif event.type == SDL_MOUSEBUTTONDOWN:
             if event.button == SDL_BUTTON_LEFT:
