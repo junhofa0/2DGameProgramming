@@ -162,6 +162,12 @@ def save_file():
     fname = "map\\" + fstr + ".txt"
     if os.path.exists(fname):
         answer = input("기존에 존재하는 파일이 있습니다. 덮어쓰시겠습니까? Y/N  ")
+        if answer == 'y' or answer == 'Y':
+            pass
+        elif answer == 'n' or answer == 'N':
+            pass
+    else:
+        pass
 
 def load_file():
     pass
