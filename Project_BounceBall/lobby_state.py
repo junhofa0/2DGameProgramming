@@ -1,5 +1,5 @@
 import game_framework
-import mapstage_state
+import main_state
 import maptool
 from pico2d import *
 
@@ -121,7 +121,7 @@ def handle_events():
                     start_on = False
                     mouse_down = False
                     mapstage_state.mouse_x, mapstage_state.mouse_y = mouse_x, mouse_y
-                    game_framework.change_state(mapstage_state)
+                    game_framework.change_state(main_state)
                 if maptool_on:
                     maptool_on = False
                     mouse_down = False
