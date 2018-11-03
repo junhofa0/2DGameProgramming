@@ -1,17 +1,24 @@
-from pico2d import *
 import random
+import game_framework
+import lobby_state
+import main_state
+import game_world
+from pico2d import *
 
-LEFT = -1
-RIGHT = 1
-JUMP_DOWN = 2
-JUMP_UP = 3
-LEFT_BOOST = 4
-RIGHT_BOOST = 5
-STOP = 10   # 객체가 멈춰 있을 때(살아 있을 때)
-DIE = 0     # 객체가 죽었을 때(사라졌을 때 )=> 볼과 블럭, 별의 DYING 상태가 끝난 후
-DYING = 11  # 객체가 죽어가는 중 => 볼의 터지는 애이메이션, 블럭의 깨지는 애니메이션, 별의 클리어 애니메이션 상태 등
+#from block import*
+#from star import*
 
-Window_width, Window_high = 800, 600
+# Ball Speed
+PIXEL_PER_METER = (10.0 / 0.1)  # 10 pixel 10 cm = 100pixel 1m
+#RUN_SPEED_KMPH = 10.0  # Km / Hour
+#RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+RUN_SPEED_MPS = 1.5
+RUN_SPEED_PPS = (PIXEL_PER_METER * RUN_SPEED_MPS)  # 1초에 1.5 METER = 150 PIXEL
+
+# Ball Action Speed
+TIME_PER_ACTION = 1.0
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 8
         
 class Ball:
     def __init__(self): 
