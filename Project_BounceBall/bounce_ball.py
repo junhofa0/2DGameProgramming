@@ -9,7 +9,7 @@ from pico2d import *
 #from star import*
 
 # Ball Speed
-PIXEL_PER_METER = (10.0 / 0.1)  # 10 pixel 10 cm = 100pixel 1m
+PIXEL_PER_METER = (10.0 / 0.1)  # 10 pixel 10 cm = 100pixesl 1m
 #RUN_SPEED_KMPH = 10.0  # Km / Hour
 #RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = 1.3
@@ -21,229 +21,328 @@ ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 8
 
 #Ball Event
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, DIE, BOOST_LEFT, BOOST_RIGHT, DIE_TIMER, TO_STOP, TO_RUN = range(10)
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, DIE, BOOST_LEFT, BOOST_RIGHT, DIE_TIMER, TO_RUN = range(9)
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
     (SDL_KEYDOWN, SDLK_LEFT): LEFT_DOWN,
     (SDL_KEYUP, SDLK_RIGHT): RIGHT_UP,
     (SDL_KEYUP, SDLK_LEFT): LEFT_UP
 }
-        
+
+class RunState:
+    @staticmethod
+    def enter(ball, event):
+        pass
+    #   if event == RIGHT_DOWN:
+    #       ball.velocity += 1
+    #   elif event == LEFT_DOWN:
+    #       ball.velocity -= 1
+    #   elif event == RIGHT_UP:
+    #       ball.velocity -= 1
+    #   elif event == LEFT_UP:
+    #       ball.velocity += 1
+    #   ball.direction = clamp(-1, ball.velocity, 1)
+
+    @staticmethod
+    def exit(ball, event):
+        pass
+
+    @staticmethod
+    def do(ball):
+
+        ball.portal_col()
+        ball.star_col()
+        ball.side_out()
+        ball.move()
+        ball.gravitation()
+        ball.side_collision()
+        ball.bottom_collision()
+        ball.up_collision()
+
+    @staticmethod
+    def draw(ball):
+
+        if ball.bump == False:
+            ball.image.draw(ball.x, ball.y)
+        else:
+            ball.image_bump.draw(ball.x, ball.y)
+
+class BoostState:
+    @staticmethod
+    def enter(ball, event):
+     #  if event == RIGHT_DOWN:
+     #      ball.velocity += 1
+     #  elif event == LEFT_DOWN:
+     #      ball.velocity -= 1
+     #  elif event == RIGHT_UP:
+     #      ball.velocity -= 1
+     #  elif event == LEFT_UP:
+     #      ball.velocity += 1
+
+        if event == BOOST_LEFT:
+            ball.fire_speed = -RUN_SPEED_PPS * 4
+        elif event == BOOST_RIGHT:
+            ball.fire_speed = RUN_SPEED_PPS * 4
+
+    @staticmethod
+    def exit(ball, event):
+        pass
+
+    @staticmethod
+    def do(ball):
+        ball.portal_col()
+        ball.star_col()
+        ball.side_out()
+        ball.boosting(ball.fire_speed)
+        ball.boost_side_collision()
+
+    @staticmethod
+    def draw(ball):
+        ball.image.draw(ball.x, ball.y)
+
+
+class DieState:
+    @staticmethod
+    def enter(ball, event):
+     #  if event == RIGHT_DOWN:
+     #      ball.velocity += 1
+     #  elif event == LEFT_DOWN:
+     #      ball.velocity -= 1
+     #  elif event == RIGHT_UP:
+     #      ball.velocity -= 1
+     #  elif event == LEFT_UP:
+     #      ball.velocity += 1
+        ball.timer = 0
+
+    @staticmethod
+    def exit(ball, event):
+        pass
+
+    @staticmethod
+    def do(ball):
+        ball.timer = (ball.timer + ACTION_PER_TIME * FRAMES_PER_ACTION * game_framework.frame_time)
+        if ball.timer >= 8:
+            #game_framework.change_state(main_state)
+            ball.add_event(TO_RUN)
+            #ball.add_event(DIE_TIMER)
+            main_state.load_map()
+            #game_framework.change_state(mapstage_state)
+
+    @staticmethod
+    def draw(ball):
+        ball.broken_image.clip_draw(int(ball.timer) * 40, 0, 40, 40, ball.x, ball.y + 5, ball.size, ball.size)
+
+
+next_state_table = {
+    RunState: {RIGHT_UP: RunState, LEFT_UP: RunState,
+               LEFT_DOWN: RunState, RIGHT_DOWN: RunState,
+               BOOST_LEFT: BoostState, BOOST_RIGHT: BoostState,
+               DIE: DieState, TO_RUN: RunState},
+    BoostState: {LEFT_DOWN: BoostState, RIGHT_DOWN: BoostState,
+                 LEFT_UP: BoostState, RIGHT_UP: BoostState,
+                 TO_RUN: RunState, DIE: DieState},
+    DieState: {LEFT_UP: DieState, RIGHT_UP: DieState,
+               LEFT_DOWN: DieState, RIGHT_DOWN: DieState,
+               DIE_TIMER: RunState, DIE: DieState,
+                TO_RUN: RunState}
+}
+
+
 class Ball:
-    def __init__(self): 
-        self.x = 100
-        self.y = 200
+    x = None
+    y = None
+    velocity = None
+    direction = None
+
+    def __init__(self):
+
         self.size = 30
         self.r = 15
         self.bump = False
-        self.acceleration = 1.5  # 가속도
-        self.speed = 15            # 속도
+        self.acceleration = RUN_SPEED_PPS * 28
+        self.basic_jump_speed = RUN_SPEED_PPS * 5
+        self.high_jump_speed = RUN_SPEED_PPS * 8.2
+        self.speed = 0  # 속도
         self.frame = 0
-        self.direction = 0
-        self.state = STOP
-        self.col = False            # 충돌 여부 bool 변수 
-        self.image = load_image('resource\\image\\ball.png')   
-        self.image2 = load_image('resource\\image\\ball_bump.png')
+        # self.direction = 0
+        self.fire_speed = RUN_SPEED_PPS * 5
+        self.broken_timer = 50
+        # self.velocity = 0
+        self.state = 1
+        self.col = False  # 부딪친 상태인지 아닌지
+        self.image = load_image('resource\\image\\ball.png')
+        self.image_bump = load_image('resource\\image\\ball_bump.png')
+        self.broken_image = load_image('resource\\image\\broken_ball.png')
+
+        self.event_que = []
+        self.cur_state = RunState
+        self.cur_state.enter(self, None)
+
+    def add_event(self, event):
+        self.event_que.insert(0, event)
+
+    def update(self):
+        self.cur_state.do(self)
+        if len(self.event_que) > 0:
+            event = self.event_que.pop()
+            self.cur_state.exit(self, event)
+            if self.cur_state == next_state_table[self.cur_state][event]:
+                pass
+            else:
+                self.cur_state = next_state_table[self.cur_state][event]
+                self.cur_state.enter(self, event)
 
     def draw(self):
-        if self.state != DIE:
-            if self.bump == False:
-                self.image.draw(self.x, self.y)
-            elif self.bump == True:
-                self.image2.draw(self.x, self.y)
+        self.cur_state.draw(self)
 
-    def set_position(self, x, y):
-        self.x = x
-        self.y = y
-
-    def set_state(self, state):
-        self.state = state
+    def handle_event(self, event):
+        # if (event.type, event.key) in key_event_table:
+        #    key_event = key_event_table[(event.type, event.key)]
+        #    self.add_event(key_event)
+        self.add_event(event)
 
     def jump_now(self, speed):
         self.speed = speed
         self.bump = True
 
-    def gravitation(self):
-        self.bump = False
-        self.y += self.speed
-        self.speed -= self.acceleration
+    def set_position(self, x, y):
+        self.x = x
+        self.y = y
 
     def boosting(self, fire_speed):
-        if self.state == LEFT_BOOST:
-            self.x -= fire_speed
-        elif self.state == RIGHT_BOOST:
-            self.x += fire_speed
+        self.x = (self.x + fire_speed * game_framework.frame_time)
+
+    def gravitation(self):
+        self.bump = False
+        if get_time() - main_state.start_time > 0.01:
+            main_state.start_time = get_time()
+            self.y += self.speed / 100
+            self.speed -= self.acceleration / 100
+
+    def side_out(self):
+        if self.y < -300 or self.x < - 300 or self.x > 1100:
+            self.add_event(DIE)
 
     def bottom_collision(self):
-        global blocks
         self.col = False
-
-        for block in blocks:
+        for block in main_state.blocks:
             if (abs(self.x - block.x) < block.r + self.r) and (self.y - block.y < block.r + self.r - 20) and \
-                    block.y < self.y and self.state != DIE and self.state != DYING and self.speed < 0 and block.state == 3:  # 끝과 끝이 겹칠 때는 호출x
-                self.set_state(DIE)
+                    block.y < self.y and self.speed < 0 and block.state == 3 and block.state != 0:  # 끝과 끝이 겹칠 때는 호출x
+                self.add_event(DIE)
                 break
 
-        for block in blocks:
+        for block in main_state.blocks:
             if (abs(self.x - block.x) < block.r + self.r) and (self.y - block.y < block.r + self.r) and \
-                    (block.y < self.y) and self.speed < 0:
-                if (self.x <= block.x + block.r) and (self.x >= block.x - block.r) and block.state != DIE:
+                    (block.y < self.y) and self.speed < 0 and block.state != 0:
+                if (self.x <= block.x + block.r) and (self.x >= block.x - block.r):
                     if block.state == 1:
                         self.set_position(self.x, block.y + block.r + self.r)
-                        self.jump_now(15)
+                        self.jump_now(self.basic_jump_speed)
                         self.col = True
                     elif block.state == 2:
                         self.set_position(self.x, block.y + block.r + self.r)
-                        self.jump_now(15)
-                        block.state = DIE
+                        self.jump_now(self.basic_jump_speed)
+                        block.state = 0
                         self.col = True
                     elif block.state == 4:
                         self.set_position(self.x, block.y + block.r + self.r)
-                        self.jump_now(25)
+                        self.jump_now(self.high_jump_speed)
                         self.col = True
                     elif block.state == 5:
-                        self.set_position(block.x - block.r - self.r, block.y)
-                        self.set_boosting(LEFT_BOOST, 10)
+                        self.set_position(block.x - block.r - self.r, block.y + 5)
+                        self.add_event(BOOST_LEFT)
                         self.col = True
                     elif block.state == 6:
-                        self.set_position(block.x + block.r + self.r, block.y)
-                        self.set_boosting(RIGHT_BOOST, 10)
+                        self.set_position(block.x + block.r + self.r, block.y + 5)
+                        self.add_event(BOOST_RIGHT)
                         self.col = True
             if self.col == True:
                 break
 
         if self.col == False:
-            for block in blocks:
+            for block in main_state.blocks:
                 if (abs(self.x - block.x) < block.r + self.r) and (self.y - block.y < block.r + self.r) and \
-                        (block.y < self.y) and self.speed < 0 and self.state != DIE and self.state != DYING and block.state != DYING:
-                    if ((self.x > block.x + block.r) or (self.x <= block.x - block.r)) and block.state != DIE:
+                        (block.y < self.y) and self.speed < 0 and block.state != 0:
+                    if (self.x > block.x + block.r) or (self.x <= block.x - block.r):
                         if block.state == 1:
                             self.set_position(self.x, block.y + block.r + self.r)
-                            self.jump_now(15)
+                            self.jump_now(self.basic_jump_speed)
                             self.col = True
                         elif block.state == 2:
                             self.set_position(self.x, block.y + block.r + self.r)
-                            self.jump_now(15)
-                            block.state = DYING  ####
+                            self.jump_now(self.basic_jump_speed)
+                            block.state = 0
                             self.col = True
                         elif block.state == 4:
                             self.set_position(self.x, block.y + block.r + self.r)
-                            self.jump_now(12.5)
+                            self.jump_now(self.high_jump_speed)
                             self.col = True
                         elif block.state == 5:
-                            self.set_position(block.x - block.r - self.r, block.y)
-                            self.set_boosting(LEFT_BOOST, 18)
+                            self.set_position(block.x - block.r - self.r, block.y + 5)
+                            self.add_event(BOOST_LEFT)
                             self.col = True
                         elif block.state == 6:
-                            self.set_position(block.x + block.r + self.r, block.y)
-                            self.set_boosting(RIGHT_BOOST, 18)
+                            self.set_position(block.x + block.r + self.r, block.y + 5)
+                            self.add_event(BOOST_RIGHT)
                             self.col = True
+                            pass
                 if self.col == True:
                     break
-            
 
     def side_collision(self):
-        global blocks
-        for block in blocks:
-            if (abs(self.x - block.x) < block.r + self.r) and (abs(self.y - block.y) < block.r + self.r) and \
-                    abs(self.x - block.x) > abs(self.y - block.y) and block.state != DYING and \
-                block.state != DIE and self.state != DIE and self.state != DYING:
-                if self.direction > 0 and self.x < block.x:
-                    self.set_position(block.x - block.r - self.r, self.y)
-                    break
-                elif self.direction < 0 and self.x > block.x:
-                    self.set_position(block.x + block.r + self.r, self.y)
-                    break
+        for block in main_state.blocks:
+            if self.direction > 0 and (abs(self.x - block.x) < block.r + self.r) and abs(self.x - block.x) > abs(
+                    self.y - block.y) + 5 and \
+                    (abs(self.y - block.y) < block.r + self.r) and (self.x < block.x) and \
+                    block.state != 0 and block.state != 7 and block.state != 77:
+
+                self.set_position(block.x - block.r - self.r, self.y)
+                break
+
+            elif self.direction < 0 and (abs(self.x - block.x) < block.r + self.r) and abs(self.x - block.x) > abs(
+                    self.y - block.y) + 5 and \
+                    (abs(self.y - block.y) < block.r + self.r) and (self.x > block.x) and \
+                    block.state != 0 and block.state != 7 and block.state != 77:
+
+                self.set_position(block.x + block.r + self.r, self.y)
+                break
 
     def boost_side_collision(self):
-        global blocks
-        for block in blocks:
-            if self.state != DIE and (abs(self.x - block.x) < block.r + self.r) and (
-                    abs(self.y - block.y) < block.r + self.r) and \
-                    block.state != DIE and block.state != DYING and block.state != 7 and block.state != 77 and self.state != DYING:
-
-                self.speed = 0
-                self.set_state(STOP)
-
+        for block in main_state.blocks:
+            if (abs(self.x - block.x) < block.r + self.r) and (abs(self.y - block.y) < block.r + self.r) and \
+                    block.state != 0 and block.state != 7 and block.state != 77:
                 if self.x > block.x:
                     self.set_position(block.x + block.r + self.r, self.y)
                 elif self.x < block.x:
                     self.set_position(block.x - block.r - self.r, self.y)
 
+                self.cur_state = RunState
+                self.speed = 0
+
     def up_collision(self):
-        global blocks
-        for block in blocks:
-            if (abs(self.x - block.x) < block.r + self.r) and (self.y < block.y) and \
-                    (block.y - self.y < block.r + self.r) and self.state != DIE and block.state != DYING and \
-                    block.state != DIE and self.state != DYING:
+        for block in main_state.blocks:
+            if (abs(self.x - block.x) < block.r + self.r) and (self.y < block.y) and self.state != DIE and \
+                    (block.y - self.y < block.r + self.r) and block.state != 7 \
+                    and block.state != 0 and block.state != 77:
                 self.set_position(self.x, block.y - block.r - self.r)
                 if self.speed > 0:
                     self.speed = 0
                 break
 
     def star_col(self):
-        global star
-        if ((star.x - self.x) ** 2 + (star.y - self.y) ** 2) ** 0.5 <= star.r:
-            star.set_state(DIE)
+        if ((main_state.star.x - self.x) ** 2 + (
+                main_state.star.y - self.y) ** 2) ** 0.5 <= self.r + 10 and main_state.star.state != 0:
+            main_state.star.state = 0
 
-    def update(self):
-        if self.state == LEFT_BOOST or self.state == RIGHT_BOOST:
-            self.boosting(self.fire_speed)
-            self.side_collision()
-            self.boost_side_collision()
-        else:
-            if self.state != DIE and self.state != DYING:
-                self.move()
-                self.gravitation()
-                if self.direction != 0:
-                    self.side_collision()
-        self.bottom_collision()
-        self.up_collision()
-        self.star_col()
+    def portal_col(self):
+        for block in main_state.blocks:
+            if ((block.x - self.x) ** 2 + (
+                    block.y - self.y) ** 2) ** 0.5 <= self.r and block.state == 7 and block.state != 0:
+                for portal in main_state.blocks:
+                    if portal.state == 77 and block.state != 0:
+                        self.set_position(portal.x, portal.y)
+                        break
+                break
 
     def move(self):
-        self.x += self.direction * 3
-
-    def move_right(self):
-        self.direction += RIGHT
-
-    def move_left(self): 
-        self.direction += LEFT
- 
-    def stop_right(self): 
-        self.direction -= RIGHT
- 
-    def stop_left(self): 
-        self.direction -= LEFT
-
-
-open_canvas()
-
-running = True
-ball = Ball()
-star = Star()
-blocks = []
-for i in range(20):
-    blocks.append(Block(i*40, i*40, random.randint(1, 4)))
-
-for i in range(20):
-    blocks.append(Block(i*40, i*40 + 160, random.randint(1, 4)))
-
-while running:
-    handle_events()
-    clear_canvas()
-
-    star.update()
-    for block in blocks:
-        block.update()
-    ball.update()
-
-    star.draw()
-    for block in blocks:
-        block.draw()
-    ball.draw()
-
-    update_canvas()
-    delay(0.01)
-
-close_canvas()
+        self.x += self.direction * game_framework.frame_time
