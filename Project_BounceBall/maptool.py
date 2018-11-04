@@ -30,7 +30,6 @@ current_image = 0
 portal_blue = False
 portal_yellow = False
 
-select_coor = {}
 select_coor = {1: (845, 477), 2: (901, 477), 3: (955, 477), 4: (845, 376), 5: (901, 376), 6: (955, 376),
                    7: (845, 276), 8: (901, 276), 9: (955, 276), 0: (900, 70)}
 select_x, select_y = select_coor[0]
