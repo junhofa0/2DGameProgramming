@@ -159,8 +159,8 @@ class Ball:
         self.size = 30
         self.r = 15
         self.bump = False
-        self.acceleration = RUN_SPEED_PPS * 28
-        self.basic_jump_speed = RUN_SPEED_PPS * 5
+        self.acceleration = 1260   # PIXEL / S**2  =  12.6 m/s**2
+        self.basic_jump_speed = 420   # PIXEL / S  =  4.2 m/s
         self.high_jump_speed = RUN_SPEED_PPS * 8.2
         self.speed = 0  # 속도
         self.frame = 0
