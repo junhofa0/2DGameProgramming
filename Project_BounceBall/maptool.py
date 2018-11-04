@@ -136,7 +136,7 @@ def enter():
     block_broken_image = load_image("resource\\image\\block_broken.png")
     mouse_image = load_image("resource\\image\\mouse.png")
     mouse_click_image = load_image("resource\\image\\mouse_click.png")
-    select_menu_image = load_image("resource\\image\\maptool_select4.png")
+    select_menu_image = load_image("resource\\image\\maptool_select.png")
     select_image = load_image("resource\\image\\select.png")
     portal_in_image = load_image("resource\\image\\portal_in.png")
     portal_out_image = load_image("resource\\image\\portal_out.png")

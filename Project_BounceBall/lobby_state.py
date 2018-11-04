@@ -120,7 +120,7 @@ def handle_events():
                 if start_on:
                     start_on = False
                     mouse_down = False
-                    mapstage_state.mouse_x, mapstage_state.mouse_y = mouse_x, mouse_y
+                    #mapstage_state.mouse_x, mapstage_state.mouse_y = mouse_x, mouse_y
                     game_framework.change_state(main_state)
                 if maptool_on:
                     maptool_on = False

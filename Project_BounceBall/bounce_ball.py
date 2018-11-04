@@ -49,7 +49,6 @@ class RunState:
 
     @staticmethod
     def do(ball):
-
         ball.portal_col()
         ball.star_col()
         ball.side_out()
@@ -130,7 +129,8 @@ class DieState:
 
     @staticmethod
     def draw(ball):
-        ball.broken_image.clip_draw(int(ball.timer) * 40, 0, 40, 40, ball.x, ball.y + 5, ball.size, ball.size)
+        pass
+        #ball.broken_image.clip_draw(int(ball.timer) * 40, 0, 40, 40, ball.x, ball.y + 5, ball.size, ball.size)
 
 
 next_state_table = {
@@ -152,7 +152,7 @@ class Ball:
     x = None
     y = None
     velocity = None
-    direction = None
+    direction = 0
 
     def __init__(self):
 
@@ -172,7 +172,7 @@ class Ball:
         self.col = False  # 부딪친 상태인지 아닌지
         self.image = load_image('resource\\image\\ball.png')
         self.image_bump = load_image('resource\\image\\ball_bump.png')
-        self.broken_image = load_image('resource\\image\\broken_ball.png')
+        #self.broken_image = load_image('resource\\image\\broken_ball.png')
 
         self.event_que = []
         self.cur_state = RunState
