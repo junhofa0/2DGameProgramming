@@ -161,12 +161,13 @@ class Ball:
         self.bump = False
         self.acceleration = 1260   # PIXEL / S**2  =  12.6 m/s**2
         self.basic_jump_speed = 420   # PIXEL / S  =  4.2 m/s
-        self.high_jump_speed = RUN_SPEED_PPS * 8.2
+        self.high_jump_speed = 420 * 1.6275 # PIXEL / S  =  4.2 * 1.6275 m/s
         self.speed = 0  # 속도
         self.frame = 0
         # self.direction = 0
         self.fire_speed = RUN_SPEED_PPS * 5
         self.broken_timer = 50
+        self.speed_down = 0
         # self.velocity = 0
         self.state = 1
         self.col = False  # 부딪친 상태인지 아닌지
@@ -216,8 +217,10 @@ class Ball:
         self.bump = False
         if get_time() - main_state.start_time > 0.01:
             main_state.start_time = get_time()
+            self.speed_down = 1- self.speed_down
+            if self.speed_down == 1:
+                self.speed -= self.acceleration / 50
             self.y += self.speed / 100
-            self.speed -= self.acceleration / 100
 
     def side_out(self):
         if self.y < -300 or self.x < - 300 or self.x > 1100:
