@@ -111,7 +111,7 @@ class DieState:
      #      ball.velocity -= 1
      #  elif event == LEFT_UP:
      #      ball.velocity += 1
-        ball.timer = 0
+        ball.end_timer = 0
 
     @staticmethod
     def exit(ball, event):
@@ -119,18 +119,20 @@ class DieState:
 
     @staticmethod
     def do(ball):
-        ball.timer = (ball.timer + ACTION_PER_TIME * FRAMES_PER_ACTION * game_framework.frame_time)
-        if ball.timer >= 8:
+        ball.end_timer = (ball.end_timer + ACTION_PER_TIME * FRAMES_PER_ACTION * game_framework.frame_time)
+        if ball.end_timer >= 8:
             #game_framework.change_state(main_state)
             ball.add_event(TO_RUN)
+            main_state.start_time = get_time()
             #ball.add_event(DIE_TIMER)
             main_state.load_map()
+            ball.end_timer = 0
             #game_framework.change_state(mapstage_state)
 
     @staticmethod
     def draw(ball):
         pass
-        #ball.broken_image.clip_draw(int(ball.timer) * 40, 0, 40, 40, ball.x, ball.y + 5, ball.size, ball.size)
+        #ball.broken_image.clip_draw(int(ball.end_timer) * 40, 0, 40, 40, ball.die_x, ball.die_y + 5, ball.size, ball.size)
 
 
 next_state_table = {
@@ -164,10 +166,14 @@ class Ball:
         self.high_jump_speed = 420 * 1.6275 # PIXEL / S  =  4.2 * 1.6275 m/s
         self.speed = 0  # 속도
         self.frame = 0
+        self.die_x = 0 # 죽을 때의 위치
+        self.die_y = 0 # 죽을 때의 위치
         # self.direction = 0
         self.fire_speed = RUN_SPEED_PPS * 5
         self.broken_timer = 50
         self.speed_down = 0
+        self.space_time = 0
+        self.end_timer = 0
         # self.velocity = 0
         self.state = 1
         self.col = False  # 부딪친 상태인지 아닌지
@@ -212,26 +218,34 @@ class Ball:
 
     def boosting(self, fire_speed):
         self.x = (self.x + fire_speed * game_framework.frame_time)
+        main_state.start_time = get_time()
 
     def gravitation(self):
         self.bump = False
-        if get_time() - main_state.start_time > 0.01:
-            main_state.start_time = get_time()
-            self.speed_down = 1- self.speed_down
-            if self.speed_down == 1:
-                self.speed -= self.acceleration / 50
-            self.y += self.speed / 100
+        self.space_time = get_time() - main_state.start_time
+        self.speed_down = 1 - self.speed_down
+        if self.speed_down == 1:
+            self.speed -= self.acceleration * self.space_time * 2
+        self.y += self.speed * self.space_time
+        main_state.start_time = get_time()
 
     def side_out(self):
-        if self.y < -300 or self.x < - 300 or self.x > 1100:
-            self.add_event(DIE)
+        if self.y < -self.r or self.x < - 300 or self.x > 1100:
+            self.die_x = self.x
+            self.die_y = self.y + self.r * 2
+            #self.add_event(DIE)
+            self.cur_state = DieState
 
     def bottom_collision(self):
         self.col = False
         for block in main_state.blocks:
             if (abs(self.x - block.x) < block.r + self.r) and (self.y - block.y < block.r + self.r - 20) and \
                     block.y < self.y and self.speed < 0 and block.state == 3 and block.state != 0:  # 끝과 끝이 겹칠 때는 호출x
-                self.add_event(DIE)
+                #self.add_event(DIE)
+                self.cur_state = DieState
+                self.die_x = self.x
+                self.die_y = self.y
+                self.col = True
                 break
 
         for block in main_state.blocks:
