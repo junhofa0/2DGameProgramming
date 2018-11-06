@@ -5,6 +5,7 @@ import os
 from pico2d import *
 import game_framework
 import game_world
+import mapstage_state
 
 from bounce_ball import *
 from block import *
@@ -23,7 +24,7 @@ name = "MainState"
 ball = None
 blocks = []
 star = None
-map = '5'
+map = ''
 start_time = None
 
 def load_map():
@@ -74,13 +75,13 @@ def enter():
     ball.state = 1
     #ball.direction = mapstage_state.dire * RUN_SPEED_PPS
     load_map()
-    start_time = get_time()
 
     game_world.objects = [[], [], []]
-
     game_world.add_object(ball, 0)
     game_world.add_object(blocks, 1)
     game_world.add_object(star, 2)
+
+    start_time = get_time()
 
 
 
@@ -104,7 +105,7 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_ESCAPE:
-                game_framework.change_state(lobby_state)
+                game_framework.change_state(mapstage_state)
             elif event.key == SDLK_RIGHT:
                 Ball.direction += RUN_SPEED_PPS
                 #mapstage_state.dire += 1
