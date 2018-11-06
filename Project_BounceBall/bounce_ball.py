@@ -295,11 +295,11 @@ class Ball:
                             self.jump_now(self.high_jump_speed)
                             self.col = True
                         elif block.state == 5:
-                            self.set_position(block.x - block.r - self.r, block.y + 5)
+                            self.set_position(block.x - block.r - self.r, block.y)
                             self.add_event(BOOST_LEFT)
                             self.col = True
                         elif block.state == 6:
-                            self.set_position(block.x + block.r + self.r, block.y + 5)
+                            self.set_position(block.x + block.r + self.r, block.y)
                             self.add_event(BOOST_RIGHT)
                             self.col = True
                             pass

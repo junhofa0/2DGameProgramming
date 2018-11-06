@@ -48,6 +48,8 @@ def load_map():
     ball.handle = True
     ball.boost = False
     ball.broken_timer = 50
+    ball.end_timer = 0
+    ball.cur_state = RunState
 
     line = f.readline()
     star.x = int(line)

@@ -3,7 +3,8 @@ import random
 import game_world
 
 import game_framework
-import lobby_state
+import mapstage_state
+import main_state
 
 # Star Action Speed
 TIME_PER_ACTION = 0.5
@@ -46,7 +47,9 @@ class BrokingState:
     def do(star):
         star.broken_timer = (star.broken_timer + 1 * (FRAMES_PER_ACTION + 2) * game_framework.frame_time)
         if star.broken_timer >= 10:
-            game_framework.change_state(lobby_state)
+            if int(main_state.map) == mapstage_state.open_map_count:
+                mapstage_state.open_map_count += 1
+            game_framework.change_state(mapstage_state)
 
     @staticmethod
     def draw(star):
