@@ -23,7 +23,7 @@ name = "MainState"
 ball = None
 blocks = []
 star = None
-map = '6'
+map = '5'
 start_time = None
 
 def load_map():
