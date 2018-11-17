@@ -47,7 +47,7 @@ class BrokingState:
     def do(star):
         star.broken_timer = (star.broken_timer + 1 * (FRAMES_PER_ACTION + 2) * game_framework.frame_time)
         if star.broken_timer >= 10:
-            if int(main_state.map) == mapstage_state.open_map_count:
+            if int(main_state.current_play_stage) == mapstage_state.open_map_count:
                 mapstage_state.open_map_count += 1
             game_framework.change_state(mapstage_state)
 

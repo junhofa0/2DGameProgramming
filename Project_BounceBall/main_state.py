@@ -24,7 +24,7 @@ name = "MainState"
 ball = None
 blocks = []
 star = None
-map = ''
+current_play_stage = ''
 start_time = None
 
 def load_map():
@@ -32,12 +32,12 @@ def load_map():
     global ball
     global star
     global blocks
-    global map
+    global current_play_stage
 
     #Ball.x = 0
     #Ball.y = 0
 
-    fname = "map\\map" + map + ".txt"
+    fname = "map\\map" + current_play_stage + ".txt"
     f = open(fname, 'r')
 
     line = f.readline()
