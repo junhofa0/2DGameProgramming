@@ -5,7 +5,7 @@ import random
 
 BROKING, DISAPPEAR = range(2)
 
-
+EMPTY_PLACE = 0
 BASIC_BLOCK = 1
 CRACKED_BLOCK = 2
 THORN_BLOCK = 3
@@ -51,19 +51,19 @@ class IdleState:
 
     @staticmethod
     def do(block):
-        if block.state == 3:
-            block.frame = (block.frame + 2 * (FRAMES_PER_ACTION - 3) * game_framework.frame_time) % 4
-        elif block.state == 7 or block.state == 77:
-            block.frame = (block.frame + 1 * (FRAMES_PER_ACTION + 4) * game_framework.frame_time) % 12
+        if block.state == THORN_BLOCK:
+            block.frame = (block.frame + (FRAMES_PER_ACTION - 3) * game_framework.frame_time * 2) % 5
+        elif block.state == ENTRANCE_PORTAL_BLOCK or block.state == EXIT_PORTAL_BLOCK:
+            block.frame = (block.frame + (FRAMES_PER_ACTION + 4) * game_framework.frame_time) % 12
 
-        if block.state == 0:
+        if block.state == EMPTY_PLACE:
             block.add_event(BROKING)
 
     @staticmethod
     def draw(block):
-        if block.state == 3:
+        if block.state == THORN_BLOCK:
             block.image.clip_draw(int(block.frame) * 40, 0, 40, 40, block.x, block.y)
-        elif block.state == 7 or block.state == 77:
+        elif block.state == ENTRANCE_PORTAL_BLOCK or block.state == EXIT_PORTAL_BLOCK:
             block.image.clip_draw(int(block.frame) * 40, 0, 40, 40, block.x, block.y)
         else:
             block.image.draw(block.x, block.y)
@@ -75,7 +75,7 @@ class BrokingState:
     def enter(block, event):
         #block.ani_image = load_image("resource\\image\\broken_b.png")
         block.broken_timer = 0
-        block.state = 0
+        block.state = EMPTY_PLACE
 
     @staticmethod
     def exit(block, event):
@@ -130,12 +130,7 @@ class Block:
         self.size = 40
         self.r = 20
         self.state = state
-
-        if self.state == THORN_BLOCK:
-            self.frame = random(0, 29)
-        elif self.state == EXIT_PORTAL_BLOCK or self.state == ENTRANCE_PORTAL_BLOCK:
-            self.frame = random(0, 70)
-
+        self.frame = random.randint(0, 20)
         self.event_que = []
         if self.state != 0:
             self.cur_state = IdleState

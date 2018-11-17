@@ -5,6 +5,7 @@ import main_state
 import game_world
 from pico2d import *
 
+EMPTY_PLACE = 0
 BASIC_BLOCK = 1
 CRACKED_BLOCK = 2
 THORN_BLOCK = 3
@@ -230,7 +231,7 @@ class Ball:
         self.bump = False
         self.space_time = get_time() - main_state.start_time
         self.speed_down = 1 - self.speed_down
-        if self.speed_down == 1:
+        if self.speed_down == True:
             self.speed -= self.acceleration * self.space_time * 2
         self.y += self.speed * self.space_time
         main_state.start_time = get_time()
@@ -246,8 +247,7 @@ class Ball:
         self.col = False
         for block in main_state.blocks:
             if (abs(self.x - block.x) < block.r + self.r) and (self.y - block.y < block.r + self.r - 20) and \
-                    block.y < self.y and self.speed < 0 and block.state == 3 and block.state != 0:  # 끝과 끝이 겹칠 때는 호출x
-                #self.add_event(DIE)
+                    block.y < self.y and self.speed < 0 and block.state == THORN_BLOCK:  # 끝과 끝이 겹칠 때는 호출x
                 self.cur_state = DieState
                 self.die_x = self.x
                 self.die_y = self.y
@@ -256,26 +256,26 @@ class Ball:
 
         for block in main_state.blocks:
             if (abs(self.x - block.x) < block.r + self.r) and (self.y - block.y < block.r + self.r) and \
-                    (block.y < self.y) and self.speed < 0 and block.state != 0:
+                    (block.y < self.y) and self.speed < 0 and block.state != EMPTY_PLACE:
                 if (self.x <= block.x + block.r) and (self.x >= block.x - block.r):
-                    if block.state == 1:
+                    if block.state == BASIC_BLOCK:
                         self.set_position(self.x, block.y + block.r + self.r)
                         self.jump_now(self.basic_jump_speed)
                         self.col = True
-                    elif block.state == 2:
+                    elif block.state == CRACKED_BLOCK:
                         self.set_position(self.x, block.y + block.r + self.r)
                         self.jump_now(self.basic_jump_speed)
                         block.state = 0
                         self.col = True
-                    elif block.state == 4:
+                    elif block.state == JUMP_BLOCK:
                         self.set_position(self.x, block.y + block.r + self.r)
                         self.jump_now(self.high_jump_speed)
                         self.col = True
-                    elif block.state == 5:
+                    elif block.state == LEFT_BOOST_BLOCK:
                         self.set_position(block.x - block.r - self.r, block.y + 5)
                         self.add_event(BOOST_LEFT)
                         self.col = True
-                    elif block.state == 6:
+                    elif block.state == RIGHT_BOOST_BLOCK:
                         self.set_position(block.x + block.r + self.r, block.y + 5)
                         self.add_event(BOOST_RIGHT)
                         self.col = True
@@ -285,26 +285,26 @@ class Ball:
         if self.col == False:
             for block in main_state.blocks:
                 if (abs(self.x - block.x) < block.r + self.r) and (self.y - block.y < block.r + self.r) and \
-                        (block.y < self.y) and self.speed < 0 and block.state != 0:
+                        (block.y < self.y) and self.speed < 0 and block.state != EMPTY_PLACE:
                     if (self.x > block.x + block.r) or (self.x <= block.x - block.r):
-                        if block.state == 1:
+                        if block.state == BASIC_BLOCK:
                             self.set_position(self.x, block.y + block.r + self.r)
                             self.jump_now(self.basic_jump_speed)
                             self.col = True
-                        elif block.state == 2:
+                        elif block.state == CRACKED_BLOCK:
                             self.set_position(self.x, block.y + block.r + self.r)
                             self.jump_now(self.basic_jump_speed)
                             block.state = 0
                             self.col = True
-                        elif block.state == 4:
+                        elif block.state == JUMP_BLOCK:
                             self.set_position(self.x, block.y + block.r + self.r)
                             self.jump_now(self.high_jump_speed)
                             self.col = True
-                        elif block.state == 5:
+                        elif block.state == LEFT_BOOST_BLOCK:
                             self.set_position(block.x - block.r - self.r, block.y)
                             self.add_event(BOOST_LEFT)
                             self.col = True
-                        elif block.state == 6:
+                        elif block.state == RIGHT_BOOST_BLOCK:
                             self.set_position(block.x + block.r + self.r, block.y)
                             self.add_event(BOOST_RIGHT)
                             self.col = True
@@ -315,17 +315,15 @@ class Ball:
     def side_collision(self):
         for block in main_state.blocks:
             if self.direction > 0 and (abs(self.x - block.x) < block.r + self.r) and abs(self.x - block.x) > abs(
-                    self.y - block.y) + 5 and \
-                    (abs(self.y - block.y) < block.r + self.r) and (self.x < block.x) and \
-                    block.state != 0 and block.state != 7 and block.state != 77:
+                    self.y - block.y) + 5 and (abs(self.y - block.y) < block.r + self.r) and (self.x < block.x) and \
+                    block.state != EMPTY_PLACE and block.state != ENTRANCE_PORTAL_BLOCK and block.state != EXIT_PORTAL_BLOCK:
 
                 self.set_position(block.x - block.r - self.r, self.y)
                 break
 
             elif self.direction < 0 and (abs(self.x - block.x) < block.r + self.r) and abs(self.x - block.x) > abs(
-                    self.y - block.y) + 5 and \
-                    (abs(self.y - block.y) < block.r + self.r) and (self.x > block.x) and \
-                    block.state != 0 and block.state != 7 and block.state != 77:
+                    self.y - block.y) + 5 and (abs(self.y - block.y) < block.r + self.r) and (self.x > block.x) and \
+                    block.state != EMPTY_PLACE and block.state != ENTRANCE_PORTAL_BLOCK and block.state != EXIT_PORTAL_BLOCK:
 
                 self.set_position(block.x + block.r + self.r, self.y)
                 break
@@ -333,7 +331,7 @@ class Ball:
     def boost_side_collision(self):
         for block in main_state.blocks:
             if (abs(self.x - block.x) < block.r + self.r) and (abs(self.y - block.y) < block.r + self.r) and \
-                    block.state != 0 and block.state != 7 and block.state != 77:
+                    block.state != EMPTY_PLACE and block.state != ENTRANCE_PORTAL_BLOCK and block.state != EXIT_PORTAL_BLOCK:
                 if self.x > block.x:
                     self.set_position(block.x + block.r + self.r, self.y)
                 elif self.x < block.x:
@@ -345,8 +343,9 @@ class Ball:
     def up_collision(self):
         for block in main_state.blocks:
             if (abs(self.x - block.x) < block.r + self.r) and (self.y < block.y) and self.state != DIE and \
-                    (block.y - self.y < block.r + self.r) and block.state != 7 \
-                    and block.state != 0 and block.state != 77:
+                    (block.y - self.y < block.r + self.r) and block.state != EMPTY_PLACE \
+                    and block.state != ENTRANCE_PORTAL_BLOCK and block.state != EXIT_PORTAL_BLOCK:
+
                 self.set_position(self.x, block.y - block.r - self.r)
                 if self.speed > 0:
                     self.speed = 0
@@ -360,9 +359,9 @@ class Ball:
     def portal_col(self):
         for block in main_state.blocks:
             if ((block.x - self.x) ** 2 + (
-                    block.y - self.y) ** 2) ** 0.5 <= self.r and block.state == 7 and block.state != 0:
+                    block.y - self.y) ** 2) ** 0.5 <= self.r and block.state == ENTRANCE_PORTAL_BLOCK:
                 for portal in main_state.blocks:
-                    if portal.state == 77 and block.state != 0:
+                    if portal.state == EXIT_PORTAL_BLOCK:
                         self.set_position(portal.x, portal.y)
                         break
                 break
