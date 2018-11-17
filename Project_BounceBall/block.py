@@ -6,6 +6,18 @@ import random
 BROKING, DISAPPEAR = range(2)
 
 
+BASIC_BLOCK = 1
+CRACKED_BLOCK = 2
+THORN_BLOCK = 3
+JUMP_BLOCK = 4
+LEFT_BOOST_BLOCK = 5
+RIGHT_BOOST_BLOCK = 6
+ENTRANCE_PORTAL_BLOCK = 7
+EXIT_PORTAL_BLOCK = 77
+
+#################################################
+
+
 # Block Action Speed
 TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
@@ -15,27 +27,23 @@ class IdleState:
 
     @staticmethod
     def enter(block, event):
-        if block.state == 1:
+        if block.state == BASIC_BLOCK:
             block.image = load_image("resource\\image\\block.png")
-        elif block.state == 2:
+        elif block.state == CRACKED_BLOCK:
             block.image = load_image("resource\\image\\block_broken.png")
-        elif block.state == 3:
+        elif block.state == THORN_BLOCK:
             block.image = load_image("resource\\image\\thorn_sheet.png")
-        elif block.state == 4:
+        elif block.state == JUMP_BLOCK:
             block.image = load_image("resource\\image\\jump.png")
-        elif block.state == 5:
+        elif block.state == LEFT_BOOST_BLOCK:
             block.image = load_image("resource\\image\\leftboost.png")
-        elif block.state == 6:
+        elif block.state == RIGHT_BOOST_BLOCK:
             block.image = load_image("resource\\image\\rightboost.png")
-        elif block.state == 7:
+        elif block.state == ENTRANCE_PORTAL_BLOCK:
             block.image = load_image("resource\\image\\portal_in.png")
-        elif block.state == 77:
+        elif block.state == EXIT_PORTAL_BLOCK:
             block.image = load_image("resource\\image\\portal_out.png")
 
-        if block.state == 3:
-            block.frame = random.randint(0, 29)
-        elif block.state == 7 or block.state == 7:
-            block.frame = random.randint(0, 72)
 
     @staticmethod
     def exit(block, event):
@@ -121,8 +129,13 @@ class Block:
         self.y = y
         self.size = 40
         self.r = 20
-        self.frame = 0
         self.state = state
+
+        if self.state == THORN_BLOCK:
+            self.frame = random(0, 29)
+        elif self.state == EXIT_PORTAL_BLOCK or self.state == ENTRANCE_PORTAL_BLOCK:
+            self.frame = random(0, 70)
+
         self.event_que = []
         if self.state != 0:
             self.cur_state = IdleState

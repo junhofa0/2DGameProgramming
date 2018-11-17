@@ -5,8 +5,14 @@ import main_state
 import game_world
 from pico2d import *
 
-#from block import*
-#from star import*
+BASIC_BLOCK = 1
+CRACKED_BLOCK = 2
+THORN_BLOCK = 3
+JUMP_BLOCK = 4
+LEFT_BOOST_BLOCK = 5
+RIGHT_BOOST_BLOCK = 6
+ENTRANCE_PORTAL_BLOCK = 7
+EXIT_PORTAL_BLOCK = 77
 
 # Ball Speed
 PIXEL_PER_METER = (10.0 / 0.1)  # 10 pixel 10 cm = 100pixesl 1m
@@ -166,8 +172,8 @@ class Ball:
         self.high_jump_speed = 420 * 1.6275 # PIXEL / S  =  4.2 * 1.6275 m/s
         self.speed = 0  # 속도
         self.frame = 0
-        self.die_x = 0 # 죽을 때의 위치
-        self.die_y = 0 # 죽을 때의 위치
+        self.die_x = 0  # 죽을 때의 위치
+        self.die_y = 0  # 죽을 때의 위치
         # self.direction = 0
         self.fire_speed = RUN_SPEED_PPS * 5
         self.broken_timer = 50

@@ -1,20 +1,14 @@
-import random
-import json
-import os
-
 from pico2d import *
 import game_framework
 import game_world
 import mapstage_state
 
-from bounce_ball import *
-from block import *
-from star import *
+import bounce_ball
+from block import Block
+from star import Star
 
 # Ball Speed
 PIXEL_PER_METER = (10.0 / 0.1)  # 10 pixel 10 cm = 100pixel 1m
-#RUN_SPEED_KMPH = 20.0  # Km / Hour
-#RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = 1.3
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)  # 1초에 1.3 METER = 130 PIXEL
 
@@ -49,7 +43,6 @@ def load_map():
     ball.boost = False
     ball.broken_timer = 50
     ball.end_timer = 0
-    ball.cur_state = RunState
 
     line = f.readline()
     star.x = int(line)
@@ -70,7 +63,8 @@ def load_map():
 
 def enter():
     global ball, blocks, star, start_time
-    ball = Ball()
+
+    ball = bounce_ball.Ball()
     star = Star()
     blocks = []
     star.state = 1
@@ -109,26 +103,20 @@ def handle_events():
             if event.key == SDLK_ESCAPE:
                 game_framework.change_state(mapstage_state)
             elif event.key == SDLK_RIGHT:
-                Ball.direction += RUN_SPEED_PPS
-                #mapstage_state.dire += 1
-                ball.handle_event(RIGHT_DOWN)
+                bounce_ball.Ball.direction += RUN_SPEED_PPS
+                ball.handle_event(bounce_ball.RIGHT_DOWN)
             elif event.key == SDLK_LEFT:
-                Ball.direction -= RUN_SPEED_PPS
-                #mapstage_state.dire -= 1
-                ball.handle_event(LEFT_DOWN)
+                bounce_ball.Ball.direction -= RUN_SPEED_PPS
+                ball.handle_event(bounce_ball.LEFT_DOWN)
             elif event.key == SDLK_r:
                 load_map()
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_RIGHT:
-                Ball.direction -= RUN_SPEED_PPS
-                #mapstage_state.dire -= 1
-                ball.handle_event(RIGHT_UP)
+                bounce_ball.Ball.direction -= RUN_SPEED_PPS
+                ball.handle_event(bounce_ball.RIGHT_UP)
             elif event.key == SDLK_LEFT:
-                Ball.direction += RUN_SPEED_PPS
-                #mapstage_state.dire += 1
-                ball.handle_event(LEFT_UP)
-       #else:
-       #    ball.handle_event(event)
+                bounce_ball.Ball.direction += RUN_SPEED_PPS
+                ball.handle_event(bounce_ball.LEFT_UP)
 
 
 def update():
