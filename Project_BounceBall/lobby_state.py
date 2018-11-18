@@ -118,6 +118,7 @@ def handle_events():
     global start_on
     global maptool_on
     global exit_on
+    global click_bgm
 
     events = get_events()
     for event in events:
@@ -135,11 +136,13 @@ def handle_events():
                     start_on = False
                     mouse_down = False
                     mapstage_state.mouse_x, mapstage_state.mouse_y = mouse_x, mouse_y
+                    click_bgm.play()
                     game_framework.change_state(mapstage_state)
                 if maptool_on:
                     maptool_on = False
                     mouse_down = False
                     maptool.mouse_x, maptool.mouse_y = mouse_x, mouse_y
+                    click_bgm.play()
                     game_framework.change_state(maptool)
                 if exit_on:
                     exit_on = False
