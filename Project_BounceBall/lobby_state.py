@@ -21,6 +21,8 @@ exit_on = False
 window_width, window_height = 1000, 600
 button_width, button_height = 375, 110
 mouse_down = False
+lobby_bgm = False
+click_bgm = None
 
 def image_draw():
     background_image.draw(500, 300, 1000, 600)
@@ -43,6 +45,8 @@ def enter():
     global exit_image
     global mouse_image
     global mouse_click_image
+    global lobby_bgm
+    global click_bgm
 
     background_image = load_image("resource\\image\\lobby.png")
     start_image = load_image("resource\\image\\start_image.png")
@@ -50,6 +54,13 @@ def enter():
     exit_image = load_image("resource\\image\\exit_image.png")
     mouse_image = load_image("resource\\image\\mouse.png")
     mouse_click_image = load_image("resource\\image\\mouse_click.png")
+
+    lobby_bgm = load_music('resource\\sound\\lobby_bgm.ogg')
+    lobby_bgm.set_volume(50)
+    lobby_bgm.repeat_play()
+
+    click_bgm = load_wav('resource\\sound\\selectmenu.ogg')
+    click_bgm.set_volume(100)
 
 
 def exit():
@@ -59,6 +70,9 @@ def exit():
     global exit_image
     global mouse_image
     global mouse_click_image
+    global lobby_bgm
+
+    lobby_bgm.stop()
 
     del background_image
     del start_image
