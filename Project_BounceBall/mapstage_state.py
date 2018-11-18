@@ -93,7 +93,7 @@ def enter():
 
     mapstage_bgm = load_music('resource\\sound\\mapselect_bgm.ogg')
     mapstage_bgm.set_volume(40)
-
+    mapstage_bgm.repeat_play()
     click_bgm = load_wav('resource\\sound\\selectmenu.ogg')
     click_bgm.set_volume(100)
 
@@ -149,6 +149,7 @@ def handle_events():
                 mouse_down = True
                 for map in map_list:
                     if map[3] == True:
+                        click_bgm.play()
                         main_state.current_play_stage = str(map[0] + map[1]*7 + 1)
                         mouse_down = False
                         game_framework.change_state(main_state)
