@@ -128,18 +128,15 @@ class DieState:
     def do(ball):
         ball.end_timer = (ball.end_timer + ACTION_PER_TIME * FRAMES_PER_ACTION * game_framework.frame_time)
         if ball.end_timer >= 8:
-            #game_framework.change_state(main_state)
             ball.add_event(TO_RUN)
             main_state.start_time = get_time()
-            #ball.add_event(DIE_TIMER)
             main_state.load_map()
             ball.end_timer = 0
-            #game_framework.change_state(mapstage_state)
 
     @staticmethod
     def draw(ball):
         pass
-        #ball.broken_image.clip_draw(int(ball.end_timer) * 40, 0, 40, 40, ball.die_x, ball.die_y + 5, ball.size, ball.size)
+        ball.broken_image.clip_draw(int(ball.end_timer) * 40, 0, 40, 40, ball.die_x, ball.die_y + 5, ball.size, ball.size)
 
 
 next_state_table = {
@@ -169,24 +166,37 @@ class Ball:
         self.r = 15
         self.bump = False
         self.acceleration = 1260   # PIXEL / S**2  =  12.6 m/s**2
-        self.basic_jump_speed = 420   # PIXEL / S  =  4.2 m/s
-        self.high_jump_speed = 420 * 1.6275 # PIXEL / S  =  4.2 * 1.6275 m/s
+        self.basic_jump_speed = 420   # PIXEL / S  =  4.2 m/s  =>  최대 점프높이 70pixel
+        self.high_jump_speed = 420 * 1.6275 # PIXEL / S  =  4.2 * 1.6275 m/s  =>  최대 점프높이 171pixel
         self.speed = 0  # 속도
         self.frame = 0
         self.die_x = 0  # 죽을 때의 위치
         self.die_y = 0  # 죽을 때의 위치
-        # self.direction = 0
         self.fire_speed = RUN_SPEED_PPS * 5
         self.broken_timer = 50
         self.speed_down = 0
         self.space_time = 0
         self.end_timer = 0
-        # self.velocity = 0
         self.state = 1
         self.col = False  # 부딪친 상태인지 아닌지
+        
         self.image = load_image('resource\\image\\ball.png')
         self.image_bump = load_image('resource\\image\\ball_bump.png')
-        #self.broken_image = load_image('resource\\image\\broken_ball.png')
+        self.broken_image = load_image('resource\\image\\broken_ball.png')
+        self.bounce_bgm = load_wav('resource\\sound\\bounceball.ogg')
+        self.bounce_bgm.set_volume(100)
+        self.dieball_bgm = load_wav('resource\\sound\\dieball.ogg')
+        self.dieball_bgm.set_volume(60)
+        self.getstar_bgm = load_wav('resource\\sound\\reachedstar.ogg')
+        self.getstar_bgm.set_volume(60)
+        self.breakblock_bgm = load_wav('resource\\sound\\breakblock.ogg')
+        self.breakblock_bgm.set_volume(60)
+        self.jumpblock_bgm = load_wav('resource\\sound\\jump_block.wav')
+        self.jumpblock_bgm.set_volume(40)
+        self.portalblock_bgm = load_wav('resource\\sound\\portal.ogg')
+        self.portalblock_bgm.set_volume(40)
+        self.boost_bgm = load_wav('resource\\sound\\boost.ogg')
+        self.boost_bgm.set_volume(40)
 
         self.event_que = []
         self.cur_state = RunState
