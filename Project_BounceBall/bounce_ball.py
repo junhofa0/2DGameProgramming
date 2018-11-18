@@ -250,7 +250,6 @@ class Ball:
         if self.y < -self.r or self.x < - 300 or self.x > 1100:
             self.die_x = self.x
             self.die_y = self.y + self.r * 2
-            #self.add_event(DIE)
             self.dieball_bgm.play()
             self.cur_state = DieState
 
@@ -273,23 +272,29 @@ class Ball:
                     if block.state == BASIC_BLOCK:
                         self.set_position(self.x, block.y + block.r + self.r)
                         self.jump_now(self.basic_jump_speed)
+                        self.bounce_bgm.play()
                         self.col = True
                     elif block.state == CRACKED_BLOCK:
                         self.set_position(self.x, block.y + block.r + self.r)
                         self.jump_now(self.basic_jump_speed)
+                        self.bounce_bgm.play()
+                        self.breakblock_bgm.play()
                         block.state = 0
                         self.col = True
                     elif block.state == JUMP_BLOCK:
                         self.set_position(self.x, block.y + block.r + self.r)
                         self.jump_now(self.high_jump_speed)
+                        self.jumpblock_bgm.play()
                         self.col = True
                     elif block.state == LEFT_BOOST_BLOCK:
                         self.set_position(block.x - block.r - self.r, block.y + 5)
                         self.add_event(BOOST_LEFT)
+                        self.boost_bgm.play()
                         self.col = True
                     elif block.state == RIGHT_BOOST_BLOCK:
                         self.set_position(block.x + block.r + self.r, block.y + 5)
                         self.add_event(BOOST_RIGHT)
+                        self.boost_bgm.play()
                         self.col = True
             if self.col == True:
                 break
@@ -302,23 +307,29 @@ class Ball:
                         if block.state == BASIC_BLOCK:
                             self.set_position(self.x, block.y + block.r + self.r)
                             self.jump_now(self.basic_jump_speed)
+                            self.bounce_bgm.play()
                             self.col = True
                         elif block.state == CRACKED_BLOCK:
                             self.set_position(self.x, block.y + block.r + self.r)
                             self.jump_now(self.basic_jump_speed)
+                            self.bounce_bgm.play()
+                            self.breakblock_bgm.play()
                             block.state = 0
                             self.col = True
                         elif block.state == JUMP_BLOCK:
                             self.set_position(self.x, block.y + block.r + self.r)
                             self.jump_now(self.high_jump_speed)
+                            self.jumpblock_bgm.play()
                             self.col = True
                         elif block.state == LEFT_BOOST_BLOCK:
                             self.set_position(block.x - block.r - self.r, block.y)
                             self.add_event(BOOST_LEFT)
+                            self.boost_bgm.play()
                             self.col = True
                         elif block.state == RIGHT_BOOST_BLOCK:
                             self.set_position(block.x + block.r + self.r, block.y)
                             self.add_event(BOOST_RIGHT)
+                            self.boost_bgm.play()
                             self.col = True
                             pass
                 if self.col == True:
@@ -330,14 +341,16 @@ class Ball:
                     self.y - block.y) + 5 and (abs(self.y - block.y) < block.r + self.r) and (self.x < block.x) and \
                     block.state != EMPTY_PLACE and block.state != ENTRANCE_PORTAL_BLOCK and block.state != EXIT_PORTAL_BLOCK:
 
-                self.set_position(block.x - block.r - self.r, self.y)
+                self.set_position(block.x - block.r - self.r - 5, self.y)
+                self.bounce_bgm.play()
                 break
 
             elif self.direction < 0 and (abs(self.x - block.x) < block.r + self.r) and abs(self.x - block.x) > abs(
                     self.y - block.y) + 5 and (abs(self.y - block.y) < block.r + self.r) and (self.x > block.x) and \
                     block.state != EMPTY_PLACE and block.state != ENTRANCE_PORTAL_BLOCK and block.state != EXIT_PORTAL_BLOCK:
 
-                self.set_position(block.x + block.r + self.r, self.y)
+                self.set_position(block.x + block.r + self.r + 5, self.y)
+                self.bounce_bgm.play()
                 break
 
     def boost_side_collision(self):
@@ -351,6 +364,7 @@ class Ball:
 
                 self.cur_state = RunState
                 self.speed = 0
+                self.bounce_bgm.play()
 
     def up_collision(self):
         for block in main_state.blocks:
@@ -361,11 +375,13 @@ class Ball:
                 self.set_position(self.x, block.y - block.r - self.r)
                 if self.speed > 0:
                     self.speed = 0
+                self.bounce_bgm.play()
                 break
 
     def star_col(self):
         if ((main_state.star.x - self.x) ** 2 + (
                 main_state.star.y - self.y) ** 2) ** 0.5 <= self.r + 10 and main_state.star.state != 0:
+            self.getstar_bgm.play()
             main_state.star.state = 0
 
     def portal_col(self):
@@ -376,6 +392,7 @@ class Ball:
                     if portal.state == EXIT_PORTAL_BLOCK:
                         self.set_position(portal.x, portal.y)
                         break
+                self.portalblock_bgm.play()
                 break
 
     def move(self):
