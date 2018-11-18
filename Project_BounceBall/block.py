@@ -73,7 +73,7 @@ class BrokingState:
 
     @staticmethod
     def enter(block, event):
-        #block.ani_image = load_image("resource\\image\\broken_b.png")
+        block.ani_image = load_image("resource\\image\\broken_b.png")
         block.broken_timer = 0
         block.state = EMPTY_PLACE
 
@@ -89,8 +89,7 @@ class BrokingState:
 
     @staticmethod
     def draw(block):
-        pass
-        #block.ani_image.clip_draw(int(block.broken_timer) * 100, 0, 100, 100, block.x, block.y)
+        block.ani_image.clip_draw(int(block.broken_timer) * 100, 0, 100, 100, block.x, block.y)
 
 
 class DieState:

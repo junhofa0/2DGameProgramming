@@ -53,8 +53,7 @@ class BrokingState:
 
     @staticmethod
     def draw(star):
-        pass
-        #star.ani_image.clip_draw(int(star.broken_timer) * 100, 0, 100, 100, star.x, star.y + 15)
+        star.ani_image.clip_draw(int(star.broken_timer) * 100, 0, 100, 100, star.x, star.y + 15)
 
 
 next_state_table = {
@@ -70,7 +69,7 @@ class Star:
         self.state = 1
         self.frame = 0
         self.image = load_image("resource\\image\\star_sheet.png")
-        #self.ani_image = load_image("resource\\image\\broken_s.png")
+        self.ani_image = load_image("resource\\image\\broken_s.png")
         self.event_que = []
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
