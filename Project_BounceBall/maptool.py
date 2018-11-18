@@ -276,6 +276,8 @@ def handle_events():
                 lobby_state.mouse_x, lobby_state.mouse_y = mouse_x, mouse_y
                 game_framework.change_state(lobby_state)
             elif (event.key >= SDLK_0) and (event.key <= SDLK_9):   # 48 <= event.key <= 57
+                if current_image != event.key - 48:
+                    select_bgm.play()
                 current_image = event.key - 48
                 select_x, select_y = select_coor[current_image]
             elif event.key == SDLK_s:
