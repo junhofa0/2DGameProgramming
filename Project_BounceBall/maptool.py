@@ -30,6 +30,7 @@ current_image = 0
 portal_blue = False
 portal_yellow = False
 mouse_down = False
+select_bgm = None
 window_width, window_height = 1000, 600
 
 class Block:
@@ -125,6 +126,7 @@ def enter():
     global select_coor
     global select_x, select_y
     global ball, blocks, star
+    global select_bgm
 
     ball_image = load_image("resource\\image\\ball.png")
     star_image = load_image("resource\\image\\star_sheet.png")
@@ -140,6 +142,9 @@ def enter():
     select_image = load_image("resource\\image\\select.png")
     portal_in_image = load_image("resource\\image\\portal_in.png")
     portal_out_image = load_image("resource\\image\\portal_out.png")
+
+    select_bgm = load_wav('resource\\sound\\bounceball.ogg')
+    select_bgm.set_volume(70)
 
     select_coor = {1: (845, 477), 2: (901, 477), 3: (955, 477), 4: (845, 376), 5: (901, 376), 6: (955, 376),
                    7: (845, 276), 8: (901, 276), 9: (955, 276), 0: (900, 70)}
@@ -177,6 +182,7 @@ def exit():
     global portal_out_image
     global select_coor
     global ball, blocks, star
+    global select_bgm
 
     del ball_image
     del star_image
@@ -194,6 +200,7 @@ def exit():
     del portal_out_image
     del ball
     del star
+    global select_bgm
 
     select_coor.clear()
     blocks.clear()
@@ -242,6 +249,8 @@ def handle_events():
     global select_coor
     global f
     global select_x, select_y
+    global select_bgm
+
     events = get_events()
 
     for event in events:

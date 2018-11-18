@@ -105,6 +105,7 @@ def exit():
     global unlock_map_image
     global map_list
     global mapstage_bgm
+    global click_bgm
 
     mapstage_bgm.stop()
 
@@ -114,6 +115,7 @@ def exit():
     del lock_map_image
     del unlock_map_image
     del mapstage_bgm
+    del click_bgm
     map_list.clear()
 
 
