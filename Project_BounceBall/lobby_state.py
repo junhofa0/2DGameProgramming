@@ -80,6 +80,7 @@ def exit():
     del exit_image
     del mouse_image
     del mouse_click_image
+    del lobby_bgm
 
 def button_col():
     global mouse_x, mouse_y

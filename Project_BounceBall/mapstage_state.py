@@ -20,6 +20,8 @@ window_width, window_height = 800, 600
 gap_x, gap_y = 132, 133     # 블록 버튼 같의 갭 차이
 start_x, start_y = 98, 425      # 블록이 그려지는 첫 x, y 좌표
 image_w, image_h = 105, 120     # 블록 이미지 크기
+mapstage_bgm = None
+click_bgm = None
 
 def image_draw():
     global background_image
@@ -70,6 +72,8 @@ def enter():
     global map_list
     global open_map_count
     global total_map_count
+    global mapstage_bgm
+    global click_bgm
 
     x, y = 0, 0
     for i in range(total_map_count):
@@ -81,12 +85,17 @@ def enter():
         if x % 7 == 0:
             y += 1
 
-
     background_image = load_image('resource\\image\\map_select.png')
     mouse_image = load_image("resource\\image\\mouse.png")
     mouse_click_image = load_image("resource\\image\\mouse_click.png")
     lock_map_image = load_image("resource\\image\\lock_map.png")
     unlock_map_image = load_image("resource\\image\\unlock_map.png")
+
+    mapstage_bgm = load_music('resource\\sound\\mapselect_bgm.ogg')
+    mapstage_bgm.set_volume(40)
+
+    click_bgm = load_wav('resource\\sound\\selectmenu.ogg')
+    click_bgm.set_volume(100)
 
 def exit():
     global background_image
@@ -95,13 +104,16 @@ def exit():
     global lock_map_image
     global unlock_map_image
     global map_list
+    global mapstage_bgm
 
+    mapstage_bgm.stop()
 
     del background_image
     del mouse_image
     del mouse_click_image
     del lock_map_image
     del unlock_map_image
+    del mapstage_bgm
     map_list.clear()
 
 
