@@ -179,7 +179,7 @@ class Ball:
         self.end_timer = 0
         self.state = 1
         self.col = False  # 부딪친 상태인지 아닌지
-        
+
         self.image = load_image('resource\\image\\ball.png')
         self.image_bump = load_image('resource\\image\\ball_bump.png')
         self.broken_image = load_image('resource\\image\\broken_ball.png')
@@ -251,6 +251,7 @@ class Ball:
             self.die_x = self.x
             self.die_y = self.y + self.r * 2
             #self.add_event(DIE)
+            self.dieball_bgm.play()
             self.cur_state = DieState
 
     def bottom_collision(self):
@@ -262,6 +263,7 @@ class Ball:
                 self.die_x = self.x
                 self.die_y = self.y
                 self.col = True
+                self.dieball_bgm.play()
                 break
 
         for block in main_state.blocks:
