@@ -151,6 +151,8 @@ def handle_events():
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 lobby_state.mouse_x, lobby_state.mouse_y = mouse_x, mouse_y
                 game_framework.change_state(lobby_state)
+            elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_o):
+                pass
             elif event.type == SDL_MOUSEMOTION:
                 mouse_x, mouse_y = event.x, window_height - 1 - event.y
                 button_col()
