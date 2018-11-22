@@ -152,7 +152,8 @@ def handle_events():
                 lobby_state.mouse_x, lobby_state.mouse_y = mouse_x, mouse_y
                 game_framework.change_state(lobby_state)
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_o):
-                pass
+                open_map_count = total_map_count
+                open_map(open_map_count)
             elif event.type == SDL_MOUSEMOTION:
                 mouse_x, mouse_y = event.x, window_height - 1 - event.y
                 button_col()
