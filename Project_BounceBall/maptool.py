@@ -370,10 +370,8 @@ def save_file():
         Fop = open(fname, "w")
         Fop.write(str(ball.x) + '\n')
         Fop.write(str(ball.y) + '\n')
-        Fop.write(str(ball.state) + '\n')
         Fop.write(str(star.x) + '\n')
         Fop.write(str(star.y) + '\n')
-        Fop.write(str(star.state) + '\n')
         for block in blocks:
             Fop.write(str(block.x) + '\n')
             Fop.write(str(block.y) + '\n')
