@@ -62,6 +62,19 @@ def button_col():
         else:
             map[3] = False
 
+def open_map(open_map_count):
+    global map_list
+    global total_map_count
+
+    x, y = 0, 0
+    for i in range(total_map_count):
+        if x < open_map_count:
+            map_list.append([x % 7, y, True, False])
+        else:
+            map_list.append([x % 7, y, False, False])
+        x += 1
+        if x % 7 == 0:
+            y += 1
 
 def enter():
     global background_image
@@ -75,15 +88,7 @@ def enter():
     global mapstage_bgm
     global click_bgm
 
-    x, y = 0, 0
-    for i in range(total_map_count):
-        if x < open_map_count:
-            map_list.append([x % 7, y, True, False])
-        else:
-            map_list.append([x % 7, y, False, False])
-        x += 1
-        if x % 7 == 0:
-            y += 1
+    open_map(open_map_count)
 
     background_image = load_image('resource\\image\\map_select.png')
     mouse_image = load_image("resource\\image\\mouse.png")
@@ -135,6 +140,8 @@ def handle_events():
     global mouse_y
     global mouse_down
     global map_list
+    global open_map_count
+    global total_map_count
 
     events = get_events()
     for event in events:
