@@ -23,7 +23,16 @@ def exit():
     del pause_image
 
 def handle_events():
-    pass
+    events = get_events()
+    for event in events:
+        if event.type == SDL_QUIT:
+            game_framework.quit()
+        else:
+            if event.type == SDL_KEYDOWN:
+                if event.key == SDLK_ESCAPE:
+                    game_framework.pop_state()
+                elif event.key == SDLK_p:
+                    game_framework.pop_state()
 
 def draw():
     clear_canvas()
