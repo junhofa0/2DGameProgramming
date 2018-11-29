@@ -109,6 +109,8 @@ def handle_events():
             elif event.key == SDLK_LEFT:
                 bounce_ball.Ball.direction -= RUN_SPEED_PPS
                 ball.handle_event(bounce_ball.LEFT_DOWN)
+            elif event.key == SDLK_p:
+                game_framework.push_state(pause_state)
             elif event.key == SDLK_r:
                 load_map()
         elif event.type == SDL_KEYUP:
