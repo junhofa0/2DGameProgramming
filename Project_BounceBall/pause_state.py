@@ -26,7 +26,16 @@ def handle_events():
     pass
 
 def draw():
-    pass
+    clear_canvas()
+
+    for game_object in game_world.all_objects():
+        if game_object == main_state.blocks:
+            for block in game_object:
+                block.draw()
+        else:
+            game_object.draw()
+
+    update_canvas()
 
 def update():
     pass
