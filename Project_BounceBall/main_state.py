@@ -2,6 +2,7 @@ from pico2d import *
 import game_framework
 import game_world
 import mapstage_state
+import pause_state
 
 import bounce_ball
 from block import Block
