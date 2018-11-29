@@ -14,7 +14,8 @@ RUN_SPEED_MPS = 1.3
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)  # 1초에 1.3 METER = 130 PIXEL
 
 def enter():
-    pass
+    global pause_image
+    pause_image = load_image("resource\\image\\pause.png")
 
 def exit():
     pass
