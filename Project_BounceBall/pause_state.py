@@ -18,7 +18,9 @@ def enter():
     pause_image = load_image("resource\\image\\pause.png")
 
 def exit():
-    pass
+    global pause_image
+    main_state.start_time = get_time()
+    del pause_image
 
 def handle_events():
     pass
