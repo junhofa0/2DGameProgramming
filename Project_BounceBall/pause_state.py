@@ -33,6 +33,15 @@ def handle_events():
                     game_framework.pop_state()
                 elif event.key == SDLK_p:
                     game_framework.pop_state()
+                elif event.key == SDLK_RIGHT:
+                    bounce_ball.Ball.direction += RUN_SPEED_PPS
+                elif event.key == SDLK_LEFT:
+                    bounce_ball.Ball.direction -= RUN_SPEED_PPS
+            elif event.type == SDL_KEYUP:
+                if event.key == SDLK_RIGHT:
+                    bounce_ball.Ball.direction -= RUN_SPEED_PPS
+                elif event.key == SDLK_LEFT:
+                    bounce_ball.Ball.direction += RUN_SPEED_PPS
 
 def draw():
     clear_canvas()
