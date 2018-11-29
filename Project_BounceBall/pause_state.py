@@ -28,6 +28,8 @@ def handle_events():
 def draw():
     clear_canvas()
 
+    pause_image.draw(500, 300)
+
     for game_object in game_world.all_objects():
         if game_object == main_state.blocks:
             for block in game_object:
