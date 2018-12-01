@@ -21,6 +21,7 @@ blocks = []
 star = None
 current_play_stage = ''
 start_time = None
+background_image = None
 
 def load_map():
 
@@ -64,6 +65,9 @@ def load_map():
 
 def enter():
     global ball, blocks, star, start_time
+    global background_image
+
+    background_image = load_image('resource\\image\\ingame_background.png')
 
     ball = bounce_ball.Ball()
     star = Star()
