@@ -141,7 +141,7 @@ def update():
 def draw():
     clear_canvas()
 
-     background_image.draw(500, 300)
+    background_image.draw(500, 300)
 
     for game_object in game_world.all_objects():
         if game_object == blocks:
