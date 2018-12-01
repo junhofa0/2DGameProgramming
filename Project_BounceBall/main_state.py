@@ -87,6 +87,9 @@ def enter():
 
 
 def exit():
+    global background_image
+
+    del background_image
     game_world.clear()
 
 
